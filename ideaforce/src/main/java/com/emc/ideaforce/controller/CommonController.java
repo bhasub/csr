@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,6 +52,11 @@ public class CommonController {
 
     @Autowired
     private final UserService userService;
+
+    @RequestMapping(value="/admin", method = GET)
+    public String showAdminPage(Model model) {
+        return "admin";
+    }
 
     @RequestMapping(value = "/registration", method = GET)
     public String showRegistrationForm(Model model) {
@@ -98,13 +105,17 @@ public class CommonController {
     }
 
     @RequestMapping("/")
-    public String index(Principal principal) {
-        return "index";
+    public ModelAndView index(Principal principal) {
+        UserDetails userInfo = userService.loadUserByUsername(principal.getName());
+        Boolean userIsAdmin = userInfo.getAuthorities().stream().anyMatch(x -> x.getAuthority().equalsIgnoreCase("admin"));
+        return new ModelAndView("index", "userIsAdmin", userIsAdmin);
     }
 
     @RequestMapping("/home")
-    public String home(Principal principal) {
-        return "index";
+    public ModelAndView home(Principal principal) {
+        UserDetails userInfo = userService.loadUserByUsername(principal.getName());
+        Boolean userIsAdmin = userInfo.getAuthorities().stream().anyMatch(x -> x.getAuthority().equalsIgnoreCase("admin"));
+        return new ModelAndView("index", "userIsAdmin", userIsAdmin);
     }
 
     @RequestMapping("/challenges")
