@@ -8,10 +8,25 @@
 </head>
 <body>
 <header>
-    <div th:replace="common/header :: header('leaderboard', userIsAdmin)"></div>
+    <div th:replace="common/header :: header('admin', userIsAdmin)"></div>
 </header>
 <div class="container main">
     <h2 class="text-center">Admin Page</h2>
+    <table border="1" cellpadding="10">
+        <thead>
+            <th>Challenge Id</th>
+            <th>User</th>
+            <th>Approval Status</th>
+            <th>Approval Action</th>
+        </thead>
+
+        <tr th:each="unapprovedchallenge : ${unapprovedchallenges}">
+            <td th:text="${unapprovedchallenge.challengeId}"></td>
+            <td th:text="${unapprovedchallenge.userId}"></td>
+            <td th:text="${unapprovedchallenge.approved}"></td>
+            <td><a class="info" style="padding:2px;" th:href="@{'/approve/'+ ${unapprovedchallenge.id}}">Approve</a></td>
+        </tr>
+    </table>
 </div>
 <footer>
     <div th:replace="common/header :: footer"></div>

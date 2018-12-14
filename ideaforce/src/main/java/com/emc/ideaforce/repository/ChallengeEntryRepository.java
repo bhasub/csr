@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ChallengeEntryRepository extends JpaRepository<ChallengeEntry, String> {
     List<ChallengeEntry> findAllByApprovedIsFalse();
+    ChallengeEntry findChallengeEntryByIdEquals(String entryId);
 }

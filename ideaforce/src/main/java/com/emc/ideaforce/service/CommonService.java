@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
@@ -54,9 +55,26 @@ public class CommonService {
             challengeDetailRepository
                     .save(new ChallengeDetail(i + "", "CSR Challenge " + i, "About Challenge " + i + "..."));
         }
+        challengeEntryRepository.deleteAll();
+        for (int i = 1; i <= 10; i++) {
+            ChallengeEntry entryObj = new ChallengeEntry();
+
+            entryObj.setApproved(false);
+            entryObj.setChallengeId(i+"Entry");
+            entryObj.setUserId("temp_user");
+            entryObj.setCreated(new Date());
+            entryObj.setLastUpdated(new Date());
+            challengeEntryRepository.save(entryObj);
+        }
     }
 
     public List<ChallengeEntry> findAllByApprovedIsFalse() {
         return challengeEntryRepository.findAllByApprovedIsFalse();
+    }
+
+    public void setChallengeEntryApproval(String entryId) {
+        ChallengeEntry entryObj = challengeEntryRepository.findChallengeEntryByIdEquals(entryId);
+        entryObj.setApproved(true);
+        challengeEntryRepository.save(entryObj);
     }
 }

@@ -67,6 +67,12 @@ public class CommonController {
         return mv;
     }
 
+    @RequestMapping(value="/approve/{id}", method = GET)
+    public String approveChallengeEntry(Principal principal, @PathVariable String id) {
+        commonService.setChallengeEntryApproval(id);
+        return "approved";
+    }
+
     @RequestMapping(value = "/registration", method = GET)
     public String showRegistrationForm(Model model) {
         UserDto userDto = new UserDto();
