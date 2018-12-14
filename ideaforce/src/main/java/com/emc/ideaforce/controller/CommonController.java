@@ -44,6 +44,8 @@ public class CommonController {
     public static final String CHALLENGE_DETAIL = "challengedetail";
     public static final String CHALLENGE = "challenge";
     public static final String USER_CHALLENGES = "userchallenges";
+    public static final String ADMIN = "admin";
+    public static final String UNAPPROVED_CHALLENGES = "unapprovedchallenges";
 
     Logger logger = LoggerFactory.getLogger(CommonController.class);
 
@@ -54,8 +56,15 @@ public class CommonController {
     private final UserService userService;
 
     @RequestMapping(value="/admin", method = GET)
-    public String showAdminPage(Model model) {
-        return "admin";
+    public ModelAndView showAdminPage(Principal principal) {
+        UserDetails userInfo = userService.loadUserByUsername(principal.getName());
+        Boolean userIsAdmin = userInfo.getAuthorities().stream().anyMatch(x -> x.getAuthority().equalsIgnoreCase("admin"));
+        List<ChallengeEntry> unApprovedChallengeDetailList = commonService.findAllByApprovedIsFalse();
+
+        ModelAndView mv = new ModelAndView(ADMIN);
+        mv.addObject(UNAPPROVED_CHALLENGES, unApprovedChallengeDetailList );
+        mv.addObject("userIsAdmin", userIsAdmin);
+        return mv;
     }
 
     @RequestMapping(value = "/registration", method = GET)

@@ -55,4 +55,8 @@ public class CommonService {
                     .save(new ChallengeDetail(i + "", "CSR Challenge " + i, "About Challenge " + i + "..."));
         }
     }
+
+    public List<ChallengeEntry> findAllByApprovedIsFalse() {
+        return challengeEntryRepository.findAllByApprovedIsFalse();
+    }
 }
