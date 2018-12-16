@@ -1,9 +1,9 @@
 package com.emc.ideaforce.repository;
 
-import com.emc.ideaforce.model.ChallengeEntry;
+import com.emc.ideaforce.model.StoryImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ChallengeEntryRepository extends JpaRepository<ChallengeEntry, String> {
+public interface StoryImageRepository extends JpaRepository<StoryImage, String> {
 }

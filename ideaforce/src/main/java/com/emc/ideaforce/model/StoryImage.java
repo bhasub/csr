@@ -14,11 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "images")
+@Table(name = "story_images")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChallengeImage {
+public class StoryImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,7 +27,7 @@ public class ChallengeImage {
 
     @ManyToOne
     @JoinColumn(name = "id")
-    private ChallengeEntry challengeEntry;
+    private Story story;
 
     private byte[] data;
 }

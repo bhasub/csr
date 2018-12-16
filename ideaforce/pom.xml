@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.emc.ideaforce</groupId>
-    <artifactId>ideaforce-csr-challenge</artifactId>
+    <artifactId>green-challenge</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>IdeaForce CSR Challenge</name>
-    <description>IdeaForce CSR Challenge Portal</description>
+    <name>IdeaForce Green Challenge</name>
+    <description>IdeaForce Green Challenge Portal</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -1,17 +1,14 @@
 package com.emc.ideaforce.service;
 
 import com.emc.ideaforce.model.ChallengeDetail;
-import com.emc.ideaforce.model.ChallengeEntry;
+import com.emc.ideaforce.model.Story;
 import com.emc.ideaforce.repository.ChallengeDetailRepository;
-import com.emc.ideaforce.repository.ChallengeEntryRepository;
-import com.emc.ideaforce.repository.ChallengeImageRepository;
+import com.emc.ideaforce.repository.StoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-
-import static java.util.Collections.emptyList;
 
 @Service
 @RequiredArgsConstructor
@@ -19,9 +16,7 @@ public class CommonService {
 
     private final ChallengeDetailRepository challengeDetailRepository;
 
-    private final ChallengeEntryRepository challengeEntryRepository;
-
-    private final ChallengeImageRepository challengeImageRepository;
+    private final StoryRepository storyRepository;
 
     /**
      * Returns the global Challenges list
@@ -44,8 +39,9 @@ public class CommonService {
      *
      * @param userId
      */
-    public List<ChallengeEntry> getChallengesTakenList(String userId) {
-        return emptyList();
+    public List<Story> getStories(String userId) {
+        //note: todo by user id
+        return storyRepository.findAll();
     }
 
     @PostConstruct
