@@ -11,6 +11,9 @@
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
+<div th:if="${message}">
+    <h5 th:text="${message}"/>
+</div>
 <div/>
 <div class="container main">
     <form th:action="@{/login}" method="post">
@@ -19,5 +22,9 @@
         <div><input type="submit" value="Sign In"/></div>
     </form>
 </div>
+<div>
+    <a th:href="@{/user/forgotPassword}" th:text="#{label.forotPwd.link}"> forgotpassword </a>
+</div>
+
 </body>
 </html>

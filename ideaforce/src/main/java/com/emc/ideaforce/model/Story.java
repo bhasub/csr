@@ -18,11 +18,11 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "entries")
+@Table(name = "stories")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ChallengeEntry {
+public class Story {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -39,8 +39,8 @@ public class ChallengeEntry {
 
     private String[] videos;
 
-    @OneToMany(targetEntity = ChallengeImage.class, mappedBy = "imageId", fetch = FetchType.LAZY)
-    private List<ChallengeImage> images;
+    @OneToMany(targetEntity = StoryImage.class, mappedBy = "imageId", fetch = FetchType.LAZY)
+    private List<StoryImage> images;
 
     private boolean approved;
 

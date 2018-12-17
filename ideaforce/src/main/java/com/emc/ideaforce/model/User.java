@@ -24,6 +24,10 @@ public class User {
 
     private String password;
 
+    private String ntId;
+
+    private String employeeId;
+
     @Id
     @Column(length = 100)
     @Setter(AccessLevel.NONE)

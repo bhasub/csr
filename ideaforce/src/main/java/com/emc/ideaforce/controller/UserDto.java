@@ -1,7 +1,5 @@
-package com.emc.ideaforce.model;
+package com.emc.ideaforce.controller;
 
-import com.emc.ideaforce.controller.PasswordMatches;
-import com.emc.ideaforce.controller.ValidEmail;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -22,7 +20,7 @@ public class UserDto {
 
     @NotNull
     @NotEmpty
-    @Size(min = 8, max = 20, message="Password should be 8-20 chars")
+    @Size(min = 8, max = 20, message = "Password should be 8-20 chars")
     private String password;
     private String matchingPassword;
     private String[] roles;

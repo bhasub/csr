@@ -1,7 +1,5 @@
 package com.emc.ideaforce.controller;
 
-import com.emc.ideaforce.model.UserDto;
-
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -28,8 +26,15 @@ public @interface PasswordMatches {
 class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object> {
 
     @Override
-    public boolean isValid(Object obj, ConstraintValidatorContext context){
-        UserDto userDto = (UserDto) obj;
-        return userDto.getPassword().equals(userDto.getMatchingPassword());
+    public boolean isValid(Object obj, ConstraintValidatorContext context) {
+        if (obj instanceof UserDto) {
+            UserDto userDto = (UserDto) obj;
+            return userDto.getPassword().equals(userDto.getMatchingPassword());
+        }
+        if (obj instanceof PasswordDto) {
+            PasswordDto passwordDto = (PasswordDto) obj;
+            return passwordDto.getPassword().equals(passwordDto.getMatchingPassword());
+        }
+        return false;
     }
 }

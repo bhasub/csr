@@ -1,10 +1,9 @@
 package com.emc.ideaforce.service;
 
 import com.emc.ideaforce.model.ChallengeDetail;
-import com.emc.ideaforce.model.ChallengeEntry;
+import com.emc.ideaforce.model.Story;
 import com.emc.ideaforce.repository.ChallengeDetailRepository;
-import com.emc.ideaforce.repository.ChallengeEntryRepository;
-import com.emc.ideaforce.repository.ChallengeImageRepository;
+import com.emc.ideaforce.repository.StoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +11,13 @@ import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
 
-import static java.util.Collections.emptyList;
-
 @Service
 @RequiredArgsConstructor
 public class CommonService {
 
     private final ChallengeDetailRepository challengeDetailRepository;
 
-    private final ChallengeEntryRepository challengeEntryRepository;
-
-    private final ChallengeImageRepository challengeImageRepository;
+    private final StoryRepository storyRepository;
 
     /**
      * Returns the global Challenges list
@@ -45,8 +40,9 @@ public class CommonService {
      *
      * @param userId
      */
-    public List<ChallengeEntry> getChallengesTakenList(String userId) {
-        return emptyList();
+    public List<Story> getStories(String userId) {
+        //note: todo by user id
+        return storyRepository.findAll();
     }
 
     @PostConstruct
@@ -55,26 +51,26 @@ public class CommonService {
             challengeDetailRepository
                     .save(new ChallengeDetail(i + "", "CSR Challenge " + i, "About Challenge " + i + "..."));
         }
-        challengeEntryRepository.deleteAll();
+        storyRepository.deleteAll();
         for (int i = 1; i <= 10; i++) {
-            ChallengeEntry entryObj = new ChallengeEntry();
+            Story storyObj = new Story();
 
-            entryObj.setApproved(false);
-            entryObj.setChallengeId(i+"Entry");
-            entryObj.setUserId("temp_user");
-            entryObj.setCreated(new Date());
-            entryObj.setLastUpdated(new Date());
-            challengeEntryRepository.save(entryObj);
+            storyObj.setApproved(false);
+            storyObj.setChallengeId(i+"Entry");
+            storyObj.setUserId("temp_user");
+            storyObj.setCreated(new Date());
+            storyObj.setLastUpdated(new Date());
+            storyRepository.save(storyObj);
         }
     }
 
-    public List<ChallengeEntry> findAllByApprovedIsFalse() {
-        return challengeEntryRepository.findAllByApprovedIsFalse();
+    public List<Story> findAllByApprovedIsFalse() {
+        return storyRepository.findAllByApprovedIsFalse();
     }
 
     public void setChallengeEntryApproval(String entryId) {
-        ChallengeEntry entryObj = challengeEntryRepository.findChallengeEntryByIdEquals(entryId);
-        entryObj.setApproved(true);
-        challengeEntryRepository.save(entryObj);
+        Story storyObj = storyRepository.findChallengeEntryByIdEquals(entryId);
+        storyObj .setApproved(true);
+        storyRepository.save(storyObj );
     }
 }
