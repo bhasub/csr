@@ -48,9 +48,6 @@ public class CommonController {
     public static final String CHALLENGE = "challenge";
     public static final String USER_CHALLENGES = "userchallenges";
 
-    public static final String ADMIN = "admin";
-    public static final String UNAPPROVED_CHALLENGES = "unapprovedchallenges";
-
     Logger logger = LoggerFactory.getLogger(CommonController.class);
 
     public static final String HOME_VIEW = "index";
@@ -141,36 +138,14 @@ public class CommonController {
         return model;
     }
 
-    @RequestMapping(value="/admin", method = GET)
-    public ModelAndView showAdminPage(Principal principal) {
-        UserDetails userInfo = userService.loadUserByUsername(principal.getName());
-        Boolean userIsAdmin = userInfo.getAuthorities().stream().anyMatch(x -> x.getAuthority().equalsIgnoreCase("admin"));
-        List<Story> unApprovedChallengeDetailList = commonService.findAllByApprovedIsFalse();
-
-        ModelAndView mv = new ModelAndView(ADMIN);
-        mv.addObject(UNAPPROVED_CHALLENGES, unApprovedChallengeDetailList );
-        mv.addObject("userIsAdmin", userIsAdmin);
-        return mv;
-    }
-
-    @RequestMapping(value="/approve/{id}", method = GET)
-    public String approveChallengeEntry(Principal principal, @PathVariable String id) {
-        commonService.setChallengeEntryApproval(id);
-        return "approved";
-    }
-
     @GetMapping("/")
     public ModelAndView index(Principal principal) {
-        UserDetails userInfo = userService.loadUserByUsername(principal.getName());
-        Boolean userIsAdmin = userInfo.getAuthorities().stream().anyMatch(x -> x.getAuthority().equalsIgnoreCase("admin"));
-        return new ModelAndView("index", "userIsAdmin", userIsAdmin);
+        return new ModelAndView("index");
     }
 
     @RequestMapping("/home")
     public ModelAndView home(Principal principal) {
-        UserDetails userInfo = userService.loadUserByUsername(principal.getName());
-        Boolean userIsAdmin = userInfo.getAuthorities().stream().anyMatch(x -> x.getAuthority().equalsIgnoreCase("admin"));
-        return new ModelAndView("index", "userIsAdmin", userIsAdmin);
+        return new ModelAndView("index");
     }
 
     @GetMapping("/user/forgotPassword")

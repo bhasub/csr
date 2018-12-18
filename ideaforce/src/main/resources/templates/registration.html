@@ -36,13 +36,6 @@
         <label th:text="#{label.user.confirmPass}">confirm</label>
         <input type="password" th:field="*{matchingPassword}"/>
     </div>
-    <div>
-        <label>Select Role</label>
-        <select th:field="*{roles}">
-            <option th:value="Standard">Standard</option>
-            <option th:value="Admin">Admin</option>
-        </select>
-    </div>
     <button type="submit" th:text="#{label.regform.submit}">submit</button>
 </form>
 

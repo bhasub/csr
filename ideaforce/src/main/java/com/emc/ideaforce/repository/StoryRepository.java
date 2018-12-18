@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface StoryRepository extends JpaRepository<Story, String> {
     List<Story> findAllByApprovedIsFalse();
-    Story findChallengeEntryByIdEquals(String entryId);
+    Story findStoryByIdEquals(String entryId);
 }

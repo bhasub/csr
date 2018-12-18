@@ -68,9 +68,9 @@ public class CommonService {
         return storyRepository.findAllByApprovedIsFalse();
     }
 
-    public void setChallengeEntryApproval(String entryId) {
-        Story storyObj = storyRepository.findChallengeEntryByIdEquals(entryId);
-        storyObj .setApproved(true);
+    public void setStoryApproved(String entryId) {
+        Story storyObj = storyRepository.findStoryByIdEquals(entryId);
+        storyObj.setApproved(true);
         storyRepository.save(storyObj );
     }
 }

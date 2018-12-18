@@ -23,7 +23,6 @@ public class UserDto {
     @Size(min = 8, max = 20, message = "Password should be 8-20 chars")
     private String password;
     private String matchingPassword;
-    private String[] roles;
 
     @NotNull
     @NotEmpty
