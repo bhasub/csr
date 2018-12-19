@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <span th:include="common/header :: common-header"></span>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}"/>
+    <title> IdeaForce Home</title>
+</head>
+<body>
+<header>
+    <div th:replace="common/header :: header('admin')"></div>
+</header>
+<div class="container main">
+    <form action="/addcomments/" th:object="${newcomment}" method="POST" enctype="utf8">
+        <div>
+            <label>Add Comment for Story - <b th:text="*{storyId}"></b></label>
+        </div>
+        <div>
+            <textarea th:field="*{comment}" rows="10" cols="50"/>
+        </div>
+        <input type="text" th:field="*{storyId}" style="display: none">
+        <button type="submit" th:text="#{label.comment.submit}">Submit Comment</button>
+    </form>
+</div>
+</body>
+</html>

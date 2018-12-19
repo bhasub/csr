@@ -1,13 +1,20 @@
 package com.emc.ideaforce.service;
 
+import com.emc.ideaforce.controller.CommentDto;
 import com.emc.ideaforce.model.ChallengeDetail;
 import com.emc.ideaforce.model.Story;
+import com.emc.ideaforce.model.StoryComments;
+import com.emc.ideaforce.model.User;
 import com.emc.ideaforce.repository.ChallengeDetailRepository;
+import com.emc.ideaforce.repository.StoryCommentRepository;
 import com.emc.ideaforce.repository.StoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +25,8 @@ public class CommonService {
     private final ChallengeDetailRepository challengeDetailRepository;
 
     private final StoryRepository storyRepository;
+
+    private final StoryCommentRepository storyCommentRepository;
 
     /**
      * Returns the global Challenges list
@@ -72,5 +81,19 @@ public class CommonService {
         Story storyObj = storyRepository.findStoryByIdEquals(entryId);
         storyObj.setApproved(true);
         storyRepository.save(storyObj );
+    }
+
+    public void saveStoryComment(CommentDto commentModel, User currentUser) {
+        StoryComments storyCommentsEntity = new StoryComments();
+        storyCommentsEntity.setStoryId(commentModel.getStoryId());
+        storyCommentsEntity.setComment(commentModel.getComment());
+        storyCommentsEntity.setUser(currentUser);
+        storyCommentsEntity.setCreated(new Date(System.currentTimeMillis()));
+        storyCommentsEntity.setLastUpdated(new Date(System.currentTimeMillis()));
+        storyCommentRepository.save(storyCommentsEntity);
+    }
+
+    public List<StoryComments> getAllCommentsForStory(String id) {
+        return storyCommentRepository.findAllByStoryIdEqualsOrderByCreatedDesc(id);
     }
 }

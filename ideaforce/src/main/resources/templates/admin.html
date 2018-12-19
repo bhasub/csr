@@ -17,7 +17,9 @@
             <th>Challenge Id</th>
             <th>User</th>
             <th>Approval Status</th>
-            <th>Approval Action</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </thead>
 
         <tr th:each="unapprovedchallenge : ${unapprovedchallenges}">
@@ -25,6 +27,8 @@
             <td th:text="${unapprovedchallenge.userId}"></td>
             <td th:text="${unapprovedchallenge.approved}"></td>
             <td><a class="info" style="padding:2px;" th:href="@{'/approve/'+ ${unapprovedchallenge.id}}">Approve</a></td>
+            <td><a class="info" style="padding:2px;" th:href="@{'/addcomments/'+ ${unapprovedchallenge.id}}">Add Comments</a></td>
+            <td><a class="info" style="padding:2px;" th:href="@{'/viewcomments/'+ ${unapprovedchallenge.id}}">View Comments</a></td>
         </tr>
     </table>
 </div>

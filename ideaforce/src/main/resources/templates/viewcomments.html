@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <span th:include="common/header :: common-header"></span>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}"/>
+    <title> IdeaForce Home</title>
+</head>
+<body>
+<header>
+    <div th:replace="common/header :: header('viewcomments')"></div>
+</header>
+<div class="container main">
+    <table border="1" cellpadding="10">
+        <thead>
+        <th>Comment Id</th>
+        <th>Comment</th>
+        <th>User</th>
+        <th>Date</th>
+        </thead>
+
+        <tr th:each="storyComment : ${storyComments}">
+            <td th:text="${storyComment.id}"></td>
+            <td th:text="${storyComment.comment}"></td>
+            <td th:text="${storyComment.user != null ? storyComment.user.email : 'Admin'}"></td>
+            <td th:text="${storyComment.created}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
