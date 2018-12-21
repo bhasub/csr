@@ -1,33 +1,35 @@
 package com.emc.ideaforce.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import static javax.persistence.FetchType.LAZY;
+
+@Data
 @Entity
 @Table(name = "story_images")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class StoryImage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(length = 100)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String imageId;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "entry_id")
     private Story story;
 
+    @Lob
     private byte[] data;
+
 }

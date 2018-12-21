@@ -1,33 +1,32 @@
 package com.emc.ideaforce.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.NONE;
 
+@Data
 @Entity
 @Table(name = "stories")
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 public class Story {
 
     @Id
+    @Column(length = 100)
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(length = 100)
     private String id;
 
     /**
@@ -37,15 +36,28 @@ public class Story {
 
     private String userId;
 
-    private String[] videos;
+    private String description;
 
-    @OneToMany(targetEntity = StoryImage.class, mappedBy = "imageId", fetch = FetchType.LAZY)
-    private List<StoryImage> images;
+    private String video;
+
+    @Setter(NONE)
+    @OneToMany(mappedBy = "story", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private List<StoryImage> images = new ArrayList<>();
 
     private boolean approved;
 
     private Date created;
 
     private Date lastUpdated;
+
+    public Story() {
+        this.created = new Date();
+        this.lastUpdated = new Date();
+    }
+
+    public void addImage(StoryImage image) {
+        this.images.add(image);
+        image.setStory(this);
+    }
 
 }
