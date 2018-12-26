@@ -20,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -29,11 +28,11 @@ import java.util.UUID;
 import static com.emc.ideaforce.utils.Utils.ADMIN;
 import static com.emc.ideaforce.utils.Utils.ADMIN_ROLE;
 import static com.emc.ideaforce.utils.Utils.PWD_PRIVELEGE;
-import static com.emc.ideaforce.utils.Utils.REG_USER_ROLE;
+import static java.util.Collections.singletonList;
 
 public class UserService implements UserDetailsService {
 
-    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository repository;
@@ -59,7 +58,7 @@ public class UserService implements UserDetailsService {
     public User registerNewUserAccount(UserDto userDtoToRegister) {
 
         if (userExists(userDtoToRegister.getEmail())) {
-            logger.warn("User `{}` already exists", userDtoToRegister.getEmail());
+            LOG.warn("User `{}` already exists", userDtoToRegister.getEmail());
             return null;
         }
         User user = new User();
@@ -68,7 +67,7 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(userDtoToRegister.getPassword()));
         user.setEmail(userDtoToRegister.getEmail().toLowerCase());
         User registered = repository.save(user);
-        logger.info("Created user {}", user.getEmail());
+        LOG.info("Created user {}", user.getEmail());
 
         return registered;
     }
@@ -80,10 +79,7 @@ public class UserService implements UserDetailsService {
 
     public User getUser(String email) {
         Optional<User> userOptional = repository.findById(email.toLowerCase());
-        if (userOptional.isPresent()) {
-            return userOptional.get();
-        }
-        return null;
+        return userOptional.orElse(null);
     }
 
     @Override
@@ -100,7 +96,7 @@ public class UserService implements UserDetailsService {
         if (username.equalsIgnoreCase(ADMIN)) {
             return new org.springframework.security.core.userdetails.User(ADMIN,
                     passwordEncoder.encode("crossroads"),
-                    Arrays.asList(new SimpleGrantedAuthority(ADMIN_ROLE)));
+                    singletonList(new SimpleGrantedAuthority(ADMIN_ROLE)));
         }
 
         //otherwise throw error
@@ -127,8 +123,7 @@ public class UserService implements UserDetailsService {
 
         User user = passToken.getUser();
         Authentication auth = new UsernamePasswordAuthenticationToken(
-                user, null, Arrays.asList(
-                new SimpleGrantedAuthority(PWD_PRIVELEGE)));
+                user, null, singletonList(new SimpleGrantedAuthority(PWD_PRIVELEGE)));
         SecurityContextHolder.getContext().setAuthentication(auth);
         return null;
     }
@@ -137,6 +132,6 @@ public class UserService implements UserDetailsService {
         // Update password
         user.setPassword(passwordEncoder.encode(password));
         repository.save(user);
-
     }
+
 }

@@ -38,7 +38,7 @@ public class CommonService {
     /**
      * Return the challenge detail
      *
-     * @param id
+     * @param id unique identifier for the challenge
      */
     public ChallengeDetail getChallengeDetail(String id) {
         return challengeDetailRepository.getOne(id);
@@ -47,11 +47,23 @@ public class CommonService {
     /**
      * Return the challenges taken by the user
      *
-     * @param userId
+     * @param userId unique identifier for the user
      */
     public List<Story> getStories(String userId) {
-        //note: todo by user id
-        return storyRepository.findAll();
+        return storyRepository.findAll();   // TODO: Get stories by user id
+    }
+
+    /**
+     * Submit story taken by the user
+     *
+     * @param story story taken by user
+     */
+    public void submitStory(Story story) {
+        storyRepository.save(story);
+    }
+
+    public List<Story> findAllByApprovedIsFalse() {
+        return storyRepository.findAllByApprovedIsFalse();
     }
 
     @PostConstruct
@@ -60,21 +72,16 @@ public class CommonService {
             challengeDetailRepository
                     .save(new ChallengeDetail(i + "", "CSR Challenge " + i, "About Challenge " + i + "..."));
         }
+
         storyRepository.deleteAll();
+
         for (int i = 1; i <= 10; i++) {
-            Story storyObj = new Story();
+            Story story = new Story();
 
-            storyObj.setApproved(false);
-            storyObj.setChallengeId(i+"Entry");
-            storyObj.setUserId("temp_user");
-            storyObj.setCreated(new Date());
-            storyObj.setLastUpdated(new Date());
-            storyRepository.save(storyObj);
+            story.setChallengeId(i + " entry");
+            story.setUserId("temp_user");
+            storyRepository.save(story);
         }
-    }
-
-    public List<Story> findAllByApprovedIsFalse() {
-        return storyRepository.findAllByApprovedIsFalse();
     }
 
     public void setStoryApproved(String entryId) {
