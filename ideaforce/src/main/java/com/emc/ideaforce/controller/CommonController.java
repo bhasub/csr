@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,7 +32,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
-import static com.emc.ideaforce.utils.Utils.PWD_PRIVELEGE;
+import static com.emc.ideaforce.utils.Utils.CP_PRIVILEGE;
 
 /**
  * Common web controller
@@ -119,7 +118,7 @@ public class CommonController {
         return new ModelAndView(HOME_VIEW, "user", userDto);
     }
 
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public ModelAndView login(Principal principal,
             HttpSession httpSession,
             @RequestParam(value = "error", required = false) String error,
@@ -140,7 +139,7 @@ public class CommonController {
         return new ModelAndView(HOME_VIEW);
     }
 
-    @RequestMapping("/home")
+    @GetMapping("/home")
     public ModelAndView home(Principal principal) {
         return new ModelAndView(HOME_VIEW);
     }
@@ -180,7 +179,7 @@ public class CommonController {
     }
 
     @PostMapping("/user/savePassword")
-    @RolesAllowed(PWD_PRIVELEGE)
+    @RolesAllowed(CP_PRIVILEGE)
     public ModelAndView savePassword(@ModelAttribute("newpassword") @Valid PasswordDto passwordDto,
             BindingResult result,
             Errors errors,
@@ -195,11 +194,6 @@ public class CommonController {
         else {
             return new ModelAndView(UPDATE_PASSWORD_VIEW, "newpassword", passwordDto);
         }
-    }
-
-    @GetMapping("/home")
-    public String home(ModelMap model) {
-        return HOME_VIEW;
     }
 
     @GetMapping("/challenges")
@@ -232,6 +226,11 @@ public class CommonController {
     @GetMapping("/submitstory")
     public String submitStory() {
         return SUBMIT_STORY_VIEW;
+    }
+
+    @GetMapping("/profile")
+    public String profile() {
+        return "profile";
     }
 
     @PostMapping("/submit-story")

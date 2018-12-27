@@ -27,7 +27,8 @@ import java.util.UUID;
 
 import static com.emc.ideaforce.utils.Utils.ADMIN;
 import static com.emc.ideaforce.utils.Utils.ADMIN_ROLE;
-import static com.emc.ideaforce.utils.Utils.PWD_PRIVELEGE;
+import static com.emc.ideaforce.utils.Utils.CP_PRIVILEGE;
+import static com.emc.ideaforce.utils.Utils.REG_USER_ROLE;
 import static java.util.Collections.singletonList;
 
 public class UserService implements UserDetailsService {
@@ -66,6 +67,7 @@ public class UserService implements UserDetailsService {
         user.setLastName(userDtoToRegister.getLastName());
         user.setPassword(passwordEncoder.encode(userDtoToRegister.getPassword()));
         user.setEmail(userDtoToRegister.getEmail().toLowerCase());
+        user.setRoles(new String[] {REG_USER_ROLE});
         User registered = repository.save(user);
         LOG.info("Created user {}", user.getEmail());
 
@@ -123,7 +125,7 @@ public class UserService implements UserDetailsService {
 
         User user = passToken.getUser();
         Authentication auth = new UsernamePasswordAuthenticationToken(
-                user, null, singletonList(new SimpleGrantedAuthority(PWD_PRIVELEGE)));
+                user, null, singletonList(new SimpleGrantedAuthority(CP_PRIVILEGE)));
         SecurityContextHolder.getContext().setAuthentication(auth);
         return null;
     }

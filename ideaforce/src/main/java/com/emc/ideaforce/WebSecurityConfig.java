@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static com.emc.ideaforce.utils.Utils.PWD_PRIVELEGE;
+import static com.emc.ideaforce.utils.Utils.CP_PRIVILEGE;
 
 @Configuration
 @EnableWebSecurity
@@ -25,11 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration*", "/login*", "/user/forgotPassword*", "/user/resetPassword*",
                         "/user/changePassword*", "/updatepassword").permitAll()
                 .antMatchers("/user/updatePassword*", "/user/savePassword*")
-                .hasAuthority(PWD_PRIVELEGE)
+                .hasAuthority(CP_PRIVILEGE)
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/", true)
                 .permitAll()
                 .and()
                 .logout()

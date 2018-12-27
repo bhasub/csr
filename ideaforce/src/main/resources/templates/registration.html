@@ -24,6 +24,11 @@
         <form class="form-signin mx-auto" action="/registration" th:object="${user}" method="POST" enctype="utf8">
             <div class="form-group align-items-center text-center" id="login">
                 <div class="col-sm-4 mx-auto">
+                    <input type="email" th:field="*{email}" class="form-control mx-sm-3 mb-2" placeholder="Dell Email" required autofocus/>
+                    <p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p>
+                </div>
+
+                <div class="col-sm-4 mx-auto">
                     <input th:field="*{firstName}" class="form-control mx-sm-3 mb-2" placeholder="FirstName" required autofocus/>
                     <p th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</p>
                 </div>
@@ -32,9 +37,10 @@
                     <input th:field="*{lastName}" class="form-control mx-sm-3 mb-2" placeholder="LastName" required autofocus/>
                     <p th:each="error : ${#fields.errors('lastName')}" th:text="${error}">Validation error</p>
                 </div>
+
                 <div class="col-sm-4 mx-auto">
-                    <input type="email" th:field="*{email}" class="form-control mx-sm-3 mb-2" placeholder="Dell EmailId" required autofocus/>
-                    <p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p>
+                    <input th:field="*{employeeId}" class="form-control mx-sm-3 mb-2" placeholder="Employee Id" required autofocus/>
+                    <p th:each="error : ${#fields.errors('employeeId')}" th:text="${error}">Validation error</p>
                 </div>
 
                 <div class="col-sm-4 mx-auto">
@@ -47,14 +53,6 @@
                 </div>
 
                 <div class="col-sm-4 mx-auto text-center">
-                    <!--<div id="remember" class="checkbox">-->
-                    <!--<label>-->
-                    <!--<input type="checkbox" value="remember-me"> Remember me-->
-                    <!--</label>-->
-                    <!--</div>-->
-                    <!--<a href="#" class="forgot-password">-->
-                    <!--Forgot the password?-->
-                    <!--</a>-->
                     <br>
                     <button class="btn btn-primary btn-lg btn-signin text-center mx-auto"type="submit" th:text="#{label.regform.submit}">submit</button>
                 </div>

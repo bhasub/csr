@@ -20,13 +20,17 @@ public class UserDto {
 
     @NotNull
     @NotEmpty
-    @Size(min = 8, max = 20, message = "Password should be 8-20 chars")
-    private String password;
-    private String matchingPassword;
+    private String employeeId;
 
     @NotNull
     @NotEmpty
     @ValidEmail
     private String email;
+
+    @NotNull
+    @NotEmpty
+    @Size(min = 8, max = 20, message = "Password should be 8-20 chars")
+    private String password;
+    private String matchingPassword;
 
 }
