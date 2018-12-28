@@ -13,14 +13,6 @@
     </div>
 </header><section id="login_section">
     <div class="container">
-        <!-- <div id="error">
-            <p th:if="${param.error}" class="text-center">
-                <span id="Error_msg"> Sorry ! Username or Password is Wrong </span>
-            </p>
-            <p th:if="${param.logout}" class="text-center">
-                <span id="Logout_msg" class="text-center"> You have Successfuly Logged Out !</span>
-            </p>
-        </div> -->
         <form class="form-signin mx-auto" action="/registration" th:object="${user}" method="POST" enctype="utf8">
             <div class="form-group align-items-center text-center" id="login">
 
@@ -45,12 +37,16 @@
                 </div>
 
                 <div class="col-sm-4 mx-auto">
-                    <input type="password" th:field="*{password}" class="form-control mx-sm-3 mb-2" placeholder="Password" required autofocus/>
+                    <input type="password" th:field="*{password}" class="form-control mx-sm-3 mb-2" placeholder="Password (8-20 chars)" required autofocus/>
                     <p th:each="error : ${#fields.errors('password')}" th:text="${error}">Validation error</p>
                 </div>
 
                 <div class="col-sm-4 mx-auto">
                     <input type="password" th:field="*{matchingPassword}" class="form-control mx-sm-3 mb-2" placeholder="Confirm Password" required autofocus/>
+                </div>
+
+                <div class="col-sm-4 mx-auto">
+                    <p th:each="error : ${#fields.globalErrors()}" th:text="${error}">Validation error</p>
                 </div>
 
                 <div class="col-sm-4 mx-auto text-center">

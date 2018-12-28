@@ -190,7 +190,7 @@ public class SecurityController {
 
         String token = userService.createPasswordResetRequestForUser(user);
         mailService.sendSimpleMessage(user.getEmail(), "Reset password",
-                "Reset your Ideaforce Around the World portal account password " + getPwdResetUrl(request, user,
+                "To reset your 'Ideaforce - Around the World' portal account password, click " + getPwdResetUrl(request, user,
                         token));
         return new ModelAndView(FORGOT_PASSWORD_VIEW, MESSAGE,
                 "Password reset mail sent successfully, check your inbox.");
