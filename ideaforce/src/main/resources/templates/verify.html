@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <span th:include="common/header :: common-header"></span>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/login.css}"/>
+    <title> Verify Email </title>
+</head>
+<body>
+<header>
+    <div class="container-fluid mx-auto header">
+        <h1 class="mx-auto main_banner">Around the World</h1>
+    </div>
+</header>
+<section id="verify_section">
+    <div class="container">
+        <form class="form-signin mx-auto" th:action="@{/verify}" th:object="${verifyEmail}" method="post">
+            <div class="form-group align-items-center text-center" id="verify">
+                <div class="col-sm-4 mx-auto">
+                    <span id="reauth-email" class="reauth-email"></span>
+                    <input type="text" th:field="*{emailId}" id="emailId" class="form-control mx-sm-3 mb-2"
+                           placeholder="Dell Email" name="emailId" required autofocus>
+                    <p th:each="error : ${#fields.errors('emailId')}" th:text="${error}">Validation error</p>
+                </div>
+
+                <div class="col-sm-4 mx-auto">
+                    <input th:if="*{codeGenerated}" type="text" th:field="*{verificationCode}" id="verificationCode"
+                           class="form-control mx-sm-3 mb-2" placeholder="Email Verification Code"
+                           name="verificationCode" required>
+                    <p th:each="error : ${#fields.errors('verificationCode')}" th:text="${error}">Validation error</p>
+                </div>
+                <div class="col-sm-4 mx-auto text-center">
+                    <br>
+                    <button id="verifyEmail"
+                            class="btn btn-primary btn-lg btn-signin text-center mx-auto" type="submit">Next
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="form-group align-items-center text-center" id="reg">
+            <a th:href="@{/login}" th:text="#{label.regform.loginLink}">login</a>
+        </div>
+        <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">-->
+    </div>
+</section>
+<span th:include="common/header :: before-body-scripts"></span>
+</body>
+</html>

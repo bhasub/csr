@@ -18,9 +18,8 @@ public class MailService {
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
-        message.setFrom("noreply@emc.com");
-        message.setReplyTo("noreply@emc.com");
-        message.setSubject(subject);
+        message.setFrom("donotreply@aroundtheworld.lss.emc.com");
+        message.setSubject("Ideaforce - Around the World : " + subject);
         message.setText(text);
         emailSender.send(message);
 
