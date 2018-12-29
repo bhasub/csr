@@ -13,4 +13,6 @@ public interface StoryRepository extends JpaRepository<Story, String> {
 
     Story findStoryByIdEquals(String entryId);
 
+    List<Story> findTop20ByOrderByLastUpdatedDesc();
+
 }

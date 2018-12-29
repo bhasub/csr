@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.NONE;
 
 @Data
@@ -26,7 +25,7 @@ public class Story {
     @Id
     @Column(length = 100)
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     /**
@@ -41,7 +40,7 @@ public class Story {
     private String video;
 
     @Setter(NONE)
-    @OneToMany(mappedBy = "story", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "story", cascade = ALL, orphanRemoval = true)
     private List<StoryImage> images = new ArrayList<>();
 
     private boolean approved;

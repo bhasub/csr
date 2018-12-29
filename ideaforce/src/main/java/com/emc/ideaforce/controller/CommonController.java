@@ -13,11 +13,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 /**
  * Common web controller
@@ -35,7 +40,6 @@ public class CommonController {
 
     private static final String HOME_VIEW = "index";
     private static final String SUBMIT_STORY_VIEW = "submitstory";
-    private static final String GALLERY_VIEW = "gallery";
     private static final String LEADER_BOARD_VIEW = "leaderboard";
     private static final String MESSAGE = "message";
 
@@ -129,9 +133,25 @@ public class CommonController {
         return mv;
     }
 
+    @ResponseBody
     @GetMapping("/gallery")
-    public String gallery() {
-        return GALLERY_VIEW;
+    public List<byte[]> gallery() {
+        try {
+            List<Story> latestChallenges = commonService.getLatestChallengesUndertaken();
+
+            // get first image from every story/challenge taken
+            return latestChallenges.stream()
+                    .map(Story::getImages)
+                    .filter(image -> !isEmpty(image))
+                    .map(image -> image.get(0).getData())
+                    .collect(Collectors.toList());
+        }
+        catch (Exception ex) {
+            String errorMsg = "Failed to get latest challenges undertaken";
+            LOG.error(errorMsg, ex);
+        }
+
+        return emptyList();
     }
 
     @GetMapping("/leaderboard")

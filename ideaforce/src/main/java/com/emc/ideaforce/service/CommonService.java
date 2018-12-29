@@ -4,19 +4,14 @@ import com.emc.ideaforce.controller.CommentDto;
 import com.emc.ideaforce.model.ChallengeDetail;
 import com.emc.ideaforce.model.Story;
 import com.emc.ideaforce.model.StoryComments;
-import com.emc.ideaforce.model.StoryImage;
 import com.emc.ideaforce.model.User;
 import com.emc.ideaforce.repository.ChallengeDetailRepository;
 import com.emc.ideaforce.repository.StoryCommentRepository;
 import com.emc.ideaforce.repository.StoryRepository;
-import com.emc.ideaforce.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -64,28 +59,15 @@ public class CommonService {
         storyRepository.save(story);
     }
 
-    public List<Story> findAllByApprovedIsFalse() {
-        return storyRepository.findAllByApprovedIsFalse();
+    /**
+     * Get the latest/recent challenges taken by users
+     */
+    public List<Story> getLatestChallengesUndertaken() {
+        return storyRepository.findTop20ByOrderByLastUpdatedDesc();
     }
 
-    @PostConstruct
-    public void run() {
-        for (int i = 1; i <= 10; i++) {
-            challengeDetailRepository
-                    .save(new ChallengeDetail(i + "", "CSR Challenge " + i, "About Challenge " + i + "..."));
-        }
-
-        storyRepository.deleteAll();
-
-        for (int i = 1; i <= 10; i++) {
-            Story story = new Story();
-
-            story.setChallengeId(i + " entry");
-            story.setUserId("temp_user");
-            story.setDescription("This is sample description posted for current story");
-            story.setVideo("https://www.youtube.com/watch?v=k3R09aaWUM8&t=2789s");
-            storyRepository.save(story);
-        }
+    public List<Story> findAllByApprovedIsFalse() {
+        return storyRepository.findAllByApprovedIsFalse();
     }
 
     public void setStoryApproved(String entryId) {
@@ -111,4 +93,23 @@ public class CommonService {
     public List<StoryComments> getAllCommentsForStory(String id) {
         return storyCommentRepository.findAllByStoryIdEqualsOrderByCreatedDesc(id);
     }
+
+    @PostConstruct
+    public void run() {
+        for (int i = 1; i <= 10; i++) {
+            challengeDetailRepository
+                    .save(new ChallengeDetail(i + "", "CSR Challenge " + i, "About Challenge " + i + "..."));
+        }
+
+        storyRepository.deleteAll();
+
+        for (int i = 1; i <= 10; i++) {
+            Story story = new Story();
+
+            story.setChallengeId(i + " entry");
+            story.setUserId("temp_user");
+            storyRepository.save(story);
+        }
+    }
+
 }
