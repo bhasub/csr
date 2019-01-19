@@ -28,7 +28,7 @@ public class IdeaforceControllerAdvice {
         LOG.error(exceptionMsg, exception);
 
         // and update the view
-        ModelAndView mv = new ModelAndView("story/submit");
+        ModelAndView mv = new ModelAndView("submit-story");
         mv.addObject(MESSAGE, exceptionMsg);
         return mv;
     }

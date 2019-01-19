@@ -3,7 +3,9 @@ package com.emc.ideaforce.controller;
 import com.emc.ideaforce.model.ChallengeDetail;
 import com.emc.ideaforce.model.Story;
 import com.emc.ideaforce.model.StoryImage;
+import com.emc.ideaforce.model.User;
 import com.emc.ideaforce.service.CommonService;
+import com.emc.ideaforce.service.UserService;
 import com.emc.ideaforce.utils.CommonException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
@@ -42,9 +45,12 @@ public class CommonController {
     private static final String HOME_VIEW = "index";
     private static final String SUBMIT_STORY_VIEW = "submitstory";
     private static final String LEADER_BOARD_VIEW = "leaderboard";
+    private static final String PROFILE_VIEW = "profile";
     private static final String MESSAGE = "message";
 
     private final CommonService commonService;
+
+    private final UserService userService;
 
     @GetMapping("/")
     public ModelAndView index() {
@@ -117,7 +123,6 @@ public class CommonController {
             commonService.submitStory(story);
 
             String successMsg = "Challenge submitted successfully";
-
             LOG.info(successMsg);
             mv.addObject(MESSAGE, successMsg);
             mv.setViewName(CHALLENGES);
@@ -157,8 +162,68 @@ public class CommonController {
     }
 
     @GetMapping("/profile")
-    public String profile() {
-        return "profile";
+    public ModelAndView profile(Principal principal) {
+        ModelAndView mv = new ModelAndView(PROFILE_VIEW);
+
+        try {
+            User user = userService.getUser(principal.getName());
+            mv.addObject("details", user);
+
+            List<Story> stories = commonService.getStories(principal.getName());
+            mv.addObject("stories", stories);
+        }
+        catch (Exception ex) {
+            String errorMessage = "Failed to get profile details";
+            LOG.error(errorMessage + " for user {}", principal.getName(), ex);
+            mv.addObject(MESSAGE, errorMessage);
+        }
+
+        return mv;
+    }
+
+    @PostMapping("/profile/set")
+    public ModelAndView profile(Principal principal,
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam String employeeId,
+            @RequestParam(required = false) MultipartFile image) {
+
+        ModelAndView mv = new ModelAndView(PROFILE_VIEW);
+
+        try {
+            User user = userService.getUser(principal.getName());
+
+            if (user == null) {
+                String errorMessage = "User doesn't exist";
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug(format("%s with ID %s", errorMessage, principal.getName()));
+                }
+
+                mv.addObject(MESSAGE, errorMessage);
+            }
+            else {
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmployeeId(employeeId);
+
+                if (!image.isEmpty()) {
+                    user.setImage(image.getBytes());
+                }
+
+                userService.updateProfile(user);
+
+                String successMessage = "Profile updated successfully";
+                LOG.info(successMessage);
+                mv.addObject(MESSAGE, successMessage);
+            }
+        }
+        catch (Exception ex) {
+            String errorMessage = "Failed to update profile";
+            LOG.error(errorMessage, ex);
+            mv.addObject(MESSAGE, errorMessage);
+        }
+
+        return mv;
     }
 
 }

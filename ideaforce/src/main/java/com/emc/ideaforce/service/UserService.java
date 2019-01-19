@@ -22,7 +22,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.emc.ideaforce.utils.Utils.ADMIN;
@@ -76,13 +75,11 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean userExists(String email) {
-        Optional<User> user = repository.findById(email.toLowerCase());
-        return user.isPresent();
+        return repository.findById(email.toLowerCase()).isPresent();
     }
 
     public User getUser(String email) {
-        Optional<User> userOptional = repository.findById(email.toLowerCase());
-        return userOptional.orElse(null);
+        return repository.findById(email.toLowerCase()).orElse(null);
     }
 
     @Override
@@ -134,6 +131,10 @@ public class UserService implements UserDetailsService {
     public void changeUserPassword(User user, String password) {
         // Update password
         user.setPassword(passwordEncoder.encode(password));
+        repository.save(user);
+    }
+
+    public void updateProfile(User user) {
         repository.save(user);
     }
 
