@@ -47,7 +47,7 @@ public class CommonService {
      * @param userId unique identifier for the user
      */
     public List<Story> getStories(String userId) {
-        return storyRepository.findAll();   // TODO: Get stories by user id
+        return storyRepository.findByUserIdEquals(userId);
     }
 
     /**
@@ -67,7 +67,7 @@ public class CommonService {
     }
 
     public List<Story> findAllByApprovedIsFalse() {
-        return storyRepository.findAllByApprovedIsFalse();
+        return storyRepository.findByApprovedIsFalse();
     }
 
     public void setStoryApproved(String entryId) {

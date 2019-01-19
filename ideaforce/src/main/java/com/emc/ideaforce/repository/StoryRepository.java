@@ -9,9 +9,11 @@ import java.util.List;
 @Repository
 public interface StoryRepository extends JpaRepository<Story, String> {
 
-    List<Story> findAllByApprovedIsFalse();
+    List<Story> findByApprovedIsFalse();
 
     Story findStoryByIdEquals(String entryId);
+
+    List<Story> findByUserIdEquals(String userId);
 
     List<Story> findTop20ByOrderByLastUpdatedDesc();
 

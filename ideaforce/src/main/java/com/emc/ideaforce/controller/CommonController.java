@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -46,17 +47,17 @@ public class CommonController {
     private final CommonService commonService;
 
     @GetMapping("/")
-    public ModelAndView index(Principal principal) {
+    public ModelAndView index() {
         return new ModelAndView(HOME_VIEW);
     }
 
     @GetMapping("/home")
-    public ModelAndView home(Principal principal) {
+    public ModelAndView home() {
         return new ModelAndView(HOME_VIEW);
     }
 
     @GetMapping("/challenges")
-    public ModelAndView challengesList(Principal principal) {
+    public ModelAndView challengesList() {
         List<ChallengeDetail> challengeDetailList = commonService.getChallengeDetailList();
 
         ModelAndView mv = new ModelAndView(CHALLENGES);
@@ -87,13 +88,9 @@ public class CommonController {
         return SUBMIT_STORY_VIEW;
     }
 
-    @GetMapping("/profile")
-    public String profile() {
-        return "profile";
-    }
-
     @PostMapping("/submit-story")
-    public ModelAndView submitStory(@RequestParam String challengeId,
+    public ModelAndView submitStory(Principal principal,
+            @RequestParam String challengeId,
             @RequestParam String description,
             @RequestParam MultipartFile[] images,
             @RequestParam String video) {
@@ -101,12 +98,12 @@ public class CommonController {
         ModelAndView mv = new ModelAndView();
 
         try {
-            if (images.length == 0) {
+            if (images.length == 0 || Stream.of(images).anyMatch(MultipartFile::isEmpty)) {
                 throw new CommonException("At least 1 image needs to be uploaded");
             }
 
             Story story = new Story();
-            story.setUserId("userId");  // TODO: Get user id from session
+            story.setUserId(principal.getName());
             story.setChallengeId(challengeId);
             story.setDescription(description);
             story.setVideo(video);
@@ -157,6 +154,11 @@ public class CommonController {
     @GetMapping("/leaderboard")
     public String getLeaderBoardView() {
         return LEADER_BOARD_VIEW;
+    }
+
+    @GetMapping("/profile")
+    public String profile() {
+        return "profile";
     }
 
 }
