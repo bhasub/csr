@@ -9,9 +9,12 @@ h6{
     margin-top: 19%;
     margin-bottom: 10%;
 }
-
+.card{
+    background-color: #6EA204;
+}
 .main_banner{
     min-height: calc(100% - 92vh);
+    background-color: #6EA204;
 }
 .footer{
     background-color: rgba(0,0,0,0.8);
@@ -39,17 +42,17 @@ ul.footer_icon li{
 
 }
 ul.footer_icon li i{
-    font-size: 40px;
+    font-size: 30px;
     color: #343a40;
-    line-height: 80px;
+    line-height: 40px;
     transition: .5s;
 
 }
 ul.footer_icon li a{
     position: relative;
     display: block;
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
     background-color: #fff;
     text-align: center;
     transform: perspective(100px) rotate(-30deg) skew(25deg) translate(0,0);
@@ -59,10 +62,10 @@ ul.footer_icon li a{
 ul.footer_icon li a::before{
     content: "";
     position: absolute;
-    top: 10px;
-    left: -20px;
+    top: 5px;
+    left: -10px;
     height: 100%;
-    width: 20px;
+    width: 10px;
     background: #b1b1b1;
     transition: .5s;
     transform: rotate(0deg) skewY(-45deg);
@@ -70,9 +73,9 @@ ul.footer_icon li a::before{
 ul.footer_icon li a::after{
     content: "";
     position: absolute;
-    top: 80px;
-    left: -11px;
-    height: 20px;
+    top: 40px;
+    left: -6px;
+    height: 10px;
     width: 100%;
     background: #b1b1b1;
     transition: .5s;

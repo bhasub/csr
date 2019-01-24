@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="common-header">
 
     <!-- Required meta tags -->
@@ -11,12 +11,15 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/header.css}"/>
 </head>
 <body>
 <div th:fragment="header(activeTab)">
-    <div class="container main_banner bg-success fixed-top">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="/">IdeaForce</a>
+    <div class="container-fluid main_banner fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="">
+                <img th:src="@{'/assets/images/Dell_Logo.png'}" width="171" height="30" class="d-inline-block align-top" alt="">
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,11 +37,8 @@
                     <li th:class="${activeTab == 'leaderboard'}? 'active' : null">
                         <a class="nav-link" href="/leaderboard">LeaderBoard</a>
                     </li>
-                    <li class="nav-item float-right" th:class="${activeTab == 'profile'}? 'active' : null" style="padding-left: 26vw;">
+                    <li class="nav-item float-right text-right" th:class="${activeTab == 'profile'}? 'active' : null" style="padding-left: 56vw;">
                         <a class="nav-link" href="/profile"><i class="far fa-user fa-lg"></i></a>
-                    </li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')" th:class="${activeTab == 'admin'}? 'active' : null">
-                        <a class="nav-link" href="/admin">Pending Challenges</a>
                     </li>
                     <li class="nav-item float-left">
                         <a class="nav-link" href="/login?logout"><i class="fas fa-sign-out-alt fa-lg"></i></a>
@@ -49,18 +49,18 @@
     </div>
 </div>
 <div th:fragment="footer">
-    <div class="container fixed-bottom footer text-center">
+    <div class="container-fluid fixed-bottom footer text-center">
         <ul class="footer_icon">
             <li><a href="#"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>
             <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
             <li><a href="#"><i class="fas fa-envelope" aria-hidden="true"></i></a></li>
-            <li><a href="#"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a></li>
-            <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+            <!--<li><a href="#"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a></li>-->
+            <!--<li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>-->
         </ul>
 
     </div>
     <!--<div>-->
-    <!--Copyright © 2018 IdeaForce Inc. All rights reserved.-->
+        <!--Copyright © 2018 IdeaForce Inc. All rights reserved.-->
     <!--</div>-->
 </div>
 <div th:fragment="before-body-scripts">

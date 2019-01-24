@@ -15,9 +15,6 @@
         <div class="alert alert-danger" th:if="${param.logout}">
             You have logged Out Successfully !!
         </div>
-        <div th:if="${message}">
-            <h5 th:text="${message}"/>
-        </div>
         <h1 class="mx-auto main_banner">Around the World</h1>
     </div>
 </header>
@@ -37,12 +34,10 @@
                     <br>
                     <button class="btn btn-primary btn-lg btn-signin text-center mx-auto" type="submit">Sign In</button>
                 </div>
+                <br>
+                <a href="/registration">Sign Up</a>
             </div>
         </form>
-
-        <div class="form-group align-items-center text-center" id="reg">
-            <a href="/registration">Sign Up</a> &nbsp;|&nbsp; <a th:href="@{/user/forgotPassword}" th:text="#{label.forotPwd.link}"> forgotpassword </a>
-        </div>
         <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">-->
     </div>
 </section>
