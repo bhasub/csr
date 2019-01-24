@@ -10,9 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+@Data
 @Entity
 @Table(name = "challenges")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChallengeDetail {
@@ -26,5 +26,14 @@ public class ChallengeDetail {
 
     @NotBlank
     private String description;
+
+    @NotBlank
+    private String environmentalIssues;
+
+    @NotBlank
+    private String participationSteps;
+
+    @NotBlank
+    private String reference;
 
 }

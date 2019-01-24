@@ -98,7 +98,7 @@ public class CommonService {
     public void run() {
         for (int i = 1; i <= 10; i++) {
             challengeDetailRepository
-                    .save(new ChallengeDetail(i + "", "CSR Challenge " + i, "About Challenge " + i + "..."));
+                    .save(new ChallengeDetail(i + "", "CSR Challenge " + i, "About Challenge " + i + "...", "environmental issue " + i, "how to participate", "reference"));
         }
 
         storyRepository.deleteAll();

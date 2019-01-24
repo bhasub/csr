@@ -2,28 +2,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <span th:include="common/header :: common-header"></span>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/challengedetail.css}"/>
-    <title>IdeaForce</title>
+  <span th:include="common/header :: common-header"></span>
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/css/challengedetail.css}"/>
+  <title>IdeaForce</title>
 </head>
 <body>
 <header>
-    <div th:replace="common/header :: header('challenges')"></div>
+  <div th:replace="common/header :: header('challenges')"></div>
 </header>
 <div class="container main">
 
-    <div class="card">
-        <h5 class="card-header text-center" th:text="'Challenge #'+ ${challenge.id} + '    ' + ${challenge.name}"></h5>
-        <div class="challenge_banner"></div>
-        <div class="card-body">
-            <h5 class="card-title">About the Challenge</h5>
-            <p class="card-text" th:text="${challenge.description}"></p>
-            <a href="/challenges" class="btn btn-primary">Back to Challenges</a>
-        </div>
+  <div class="card">
+    <h5 class="card-header text-center" th:text="'Challenge #'+ ${challenge.id} + '    ' + ${challenge.name}"></h5>
+    <!-- &#45;&#45; banner image-->
+    <!--<div class="challenge_banner"></div>-->
+    <div>
+      <img  th:src="@{'/assets/images/challenge_image/' + image_ + ${challenge.id}+ '.jpg'}" alt="">
+
     </div>
+    <div class="card-body">
+      <h5 class="card-title">About the Challenge</h5>
+      <p class="card-text" th:utext="${challenge.description}"></p>
+      <hr>
+      <!-- <h5 class="card-title">How you can contribute</h5>-->
+      <p class="card-text" th:utext="${challenge.environmentalIssues}"></p>
+      <hr>
+      <!--<h5 class="card-title">What can be done</h5>-->
+      <p class="card-text" th:utext="${challenge.participationSteps}"></p>
+      <hr>
+      <!-- <h5 class="card-title">Additional resource for reference</h5>-->
+      <p class="card-text" th:utext="${challenge.reference}"></p>
+
+      <a href="/challenges" class="btn btn-primary">Back to Challenges</a>
+    </div>
+  </div>
 </div>
 <footer>
-    <div th:replace="common/header :: footer"></div>
+  <div th:replace="common/header :: footer"></div>
 </footer>
 <span th:include="common/header :: before-body-scripts"></span>
 </body>
