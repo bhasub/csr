@@ -89,14 +89,14 @@ public class CommonController {
         return mv;
     }
 
-    @GetMapping("/submitstory")
-    public String submitStory() {
+    @GetMapping("/submitstory/{challenge-id}")
+    public String submitStory(@PathVariable(name = "challenge-id") String challengeId) {
         return SUBMIT_STORY_VIEW;
     }
 
-    @PostMapping("/submit-story")
+    @PostMapping("/submit-story/{challenge-id}")
     public ModelAndView submitStory(Principal principal,
-            @RequestParam String challengeId,
+            @PathVariable(name = "challenge-id") String challengeId,
             @RequestParam String description,
             @RequestParam MultipartFile[] images,
             @RequestParam String video) {

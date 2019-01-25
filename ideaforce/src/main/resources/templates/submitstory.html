@@ -12,10 +12,10 @@
 </header>
 <div class="container main">
    <h2 class="text-center">Submit Story Here</h2>
-    <form method="post" action="/submit-story">
+    <form method="post" action="submit-story">
         <div class="form-group">
             <label for="storytitle">Story Title</label>
-            <input type="text" class="form-control" id="storytitle" aria-describedby="storyhelp" placeholder="Enter Stroy Title">
+            <input type="text" class="form-control" id="storytitle" aria-describedby="storyhelp" placeholder="Enter Story Title">
             <small id="storyhelp" class="form-text text-muted">Title of the Challenge/Story goes Here</small>
         </div>
         <div class="form-group">
@@ -27,7 +27,7 @@
             <input type="text" class="form-control" id="video" name="video" aria-describedby="storyhelp" placeholder="Enter Video URL here">
         </div>
         <div class="form-group">
-            <label for="description">Stroy Description</label>
+            <label for="description">Story Description</label>
             <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter Story Description here"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

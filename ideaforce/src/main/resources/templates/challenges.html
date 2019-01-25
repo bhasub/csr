@@ -25,7 +25,7 @@
             <div class="overlay">
                 <h2 th:text="${challenge.name}"></h2>
                 <a class="info" th:href="@{'/challenges/'+ ${challenge.id}}">Read More</a>
-                <a class="info" th:href="@{'/submitstory'}">Submit Story</a>
+                <a class="info" th:href="@{'/submitstory/'+ ${challenge.id}}">Submit Story</a>
             </div>
         </div>
         <br>
