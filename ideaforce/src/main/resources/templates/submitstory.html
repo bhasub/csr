@@ -12,15 +12,15 @@
 </header>
 <div class="container main">
    <h2 class="text-center">Submit Story Here</h2>
-    <form method="post" action="submit-story">
+    <form method="post" action="../submit-story" enctype="multipart/form-data">
         <div class="form-group">
             <label for="storytitle">Story Title</label>
             <input type="text" class="form-control" id="storytitle" aria-describedby="storyhelp" placeholder="Enter Story Title">
             <small id="storyhelp" class="form-text text-muted">Title of the Challenge/Story goes Here</small>
         </div>
         <div class="form-group">
-            <label for="pictureupload">Example file input</label>
-            <input type="file"  multiple='multiple' class="form-control-file" id="pictureupload">
+            <label for="images">Example file input</label>
+            <input type="file" class="form-control-file" id="images" name="images" multiple>
         </div>
         <div class="form-group">
             <label for="video">Video Link/URL</label>
