@@ -12,15 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -91,16 +88,16 @@ public class CommonController {
         return mv;
     }
 
-    @GetMapping("/submitstory/{challenge-id}")
-    public ModelAndView submitStory(@PathVariable(name = "challenge-id") String challengeId) {
+    @GetMapping("/submitstory/{challengeId}")
+    public ModelAndView submitStory(@PathVariable String challengeId) {
         ModelAndView mv = new ModelAndView(SUBMIT_STORY_VIEW);
-        mv.addObject("challenge-id", challengeId);
+        mv.addObject("challengeId", challengeId);
         return mv;
     }
 
     @PostMapping("/submit-story")
     public ModelAndView submitStory(Principal principal,
-            @RequestParam(name = "challenge-id") String challengeId,
+            @RequestParam String challengeId,
             @RequestParam String description,
             @RequestParam MultipartFile[] images,
             @RequestParam String video) {
@@ -152,13 +149,14 @@ public class CommonController {
             List<Story> latestChallenges = commonService.getLatestChallengesUndertaken();
 
             // get first image from every story/challenge taken
-            List<byte[]> images = latestChallenges.stream()
+            List<String> images = latestChallenges.stream()
                     .map(Story::getImages)
                     .filter(image -> !isEmpty(image))
                     .map(image -> image.get(0).getData())
+                    .map(image -> Base64.getEncoder().encodeToString(image))
                     .collect(Collectors.toList());
 
-            mv.addObject("latest-challenges", images);
+            mv.addObject("latestChallenges", images);
         }
         catch (Exception ex) {
             String errorMsg = "Failed to get latest challenges undertaken";
