@@ -14,16 +14,15 @@
 </header>
 <div class="container main">
     <div class="container text-center">
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselIndicators" data-slide-to="2"></li>
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <a href="/home/#about"><img class="d-block w-100" th:src="@{/assets/images/carousel_images/Banner_1.jpg}" alt="First slide"></a>
+                    <a href="/#about"><img class="d-block w-100" th:src="@{/assets/images/carousel_images/Banner_1.jpg}" alt="First slide"></a>
                 </div>
                 <div class="carousel-item">
                     <a href="/gallery"><img class="d-block w-100" th:src="@{/assets/images/carousel_images/Banner_2.jpg}" alt="Second slide"></a>
@@ -31,15 +30,12 @@
                 <div class="carousel-item">
                     <a href="/challenges"><img class="d-block w-100" th:src="@{/assets/images/carousel_images/Banner_3.jpg}" alt="Third slide"></a>
                 </div>
-                <div class="carousel-item">
-                    <a href="/submitstory"><img class="d-block w-100" th:src="@{/assets/images/carousel_images/Banner_4.jpg}" alt="Fourth slide"></a>
-                </div>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
@@ -49,10 +45,10 @@
     <div class="d-flex justify-content-around">
             <div class="row justify-content-center">
                 <div class="mr-auto col-md-3 p-5 col-sm-6">
-                    <div class="progress-bar position" data-percent="90" data-color="#fffff,#6EA204"></div>
+                    <div class="progress-bar position" data-percent="75" data-color="#fffff,#6EA204"></div>
                 </div>
                 <div class="mr-auto col-md-3 p-5 col-sm-6">
-                    <div class="progress-bar position" data-percent="75" data-color="#fffff,#6EA204" data-text="# Steps Taken"></div>
+                    <div class="progress-bar position" data-percent="90" data-color="#fffff,#6EA204" data-text="# Steps Taken"></div>
                 </div>
                 <div class="mr-auto col-md-3 p-5 col-sm-6">
                     <div class="progress_static">
@@ -63,18 +59,8 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="mr-auto col-md-3 p-5 col-sm-6">-->
-                    <!--<div class="progress_static">-->
-                        <!--<span class="progress-bar_static"></span>-->
-                        <!--<span class="progress-bar_static"></span>-->
-                    <!--<div class="progress-value_static">-->
-                        <!--2 Sites-->
-                    <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
             </div>
     </div>
-    <!--<hr style="border: solid 1px; width: 90%">-->
     <div class="container-fluid info" id="about">
         <h4 class="font-italic font-weight-bold">About Around the World</h4>
         <br>
@@ -107,8 +93,6 @@
         <p class="font-weight-normal">Join the campaign today and be a part of the community that loves and protects our planet!</p>
     </div>
     <br>
-    <!--<div class="container-fluid info"><h6 class="text-center">AROUND THE WORLD - TEAM/PLACEHOLDER FOR ADDITIONAL INFO</h6></div>-->
-    <!--<br>-->
 </div>
 <script type="text/javascript">
     $(".progress-bar").loading();

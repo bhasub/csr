@@ -24,10 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static com.emc.ideaforce.utils.Utils.ADMIN;
-import static com.emc.ideaforce.utils.Utils.ADMIN_ROLE;
-import static com.emc.ideaforce.utils.Utils.CP_PRIVILEGE;
-import static com.emc.ideaforce.utils.Utils.REG_USER_ROLE;
+import static com.emc.ideaforce.utils.Utils.*;
 import static java.util.Collections.singletonList;
 
 public class UserService implements UserDetailsService {
@@ -136,6 +133,10 @@ public class UserService implements UserDetailsService {
 
     public void updateProfile(User user) {
         repository.save(user);
+    }
+
+    public long getAllUsers() {
+        return repository.count();
     }
 
 }

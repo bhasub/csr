@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -68,11 +67,15 @@ public class CommonService {
         return storyRepository.findTop20ByOrderByLastUpdatedDesc();
     }
 
-    public List<Story> findAllByApprovedIsFalse() {
+    public List<Story> getApprovedStories(String userId) {
+        return storyRepository.findByUserIdEqualsAndApprovedIsTrue(userId);
+    }
+
+    public List<Story> getUnapprovedStories() {
         return storyRepository.findByApprovedIsFalse();
     }
 
-    public void setStoryApproved(String entryId) {
+    public void approveStory(String entryId) {
         Story storyObj = storyRepository.findStoryByIdEquals(entryId);
         storyObj.setApproved(true);
         storyRepository.save(storyObj );

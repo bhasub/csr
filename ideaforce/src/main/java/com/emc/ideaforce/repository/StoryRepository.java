@@ -12,6 +12,8 @@ public interface StoryRepository extends JpaRepository<Story, String> {
 
     List<Story> findByApprovedIsFalse();
 
+    List<Story> findByUserIdEqualsAndApprovedIsTrue(String userId);
+
     Story findStoryByIdEquals(String entryId);
 
     List<Story> findByUserIdEquals(String userId);

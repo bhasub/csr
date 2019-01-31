@@ -52,13 +52,23 @@ public class CommonController {
     private final UserService userService;
 
     @GetMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView(HOME_VIEW);
-    }
+    public ModelAndView index(Principal principal) {
+        ModelAndView mv = new ModelAndView(HOME_VIEW);
 
-    @GetMapping("/home")
-    public ModelAndView home() {
-        return new ModelAndView(HOME_VIEW);
+        int totalChallenges = 30;
+
+        int approvedChallenges = commonService.getApprovedStories(principal.getName()).size();
+
+        int goalStatus = (int) ((approvedChallenges * 100.0f) / totalChallenges);
+        mv.addObject("goalStatus", goalStatus);
+
+        int stepsTaken = approvedChallenges * 3000;
+        mv.addObject("stepsTaken", stepsTaken);
+
+        long participants = userService.getAllUsers();
+        mv.addObject("participants", participants);
+
+        return mv;
     }
 
     @GetMapping("/challenges")
@@ -98,6 +108,7 @@ public class CommonController {
     @PostMapping("/submit-story")
     public ModelAndView submitStory(Principal principal,
             @RequestParam String challengeId,
+            @RequestParam String title,
             @RequestParam String description,
             @RequestParam MultipartFile[] images,
             @RequestParam String video) {
@@ -112,6 +123,7 @@ public class CommonController {
             Story story = new Story();
             story.setUserId(principal.getName());
             story.setChallengeId(challengeId);
+            story.setTitle(title);
             story.setDescription(description);
             story.setVideo(video);
 
@@ -123,10 +135,9 @@ public class CommonController {
 
             commonService.submitStory(story);
 
-            String successMsg = "Challenge submitted successfully";
-            LOG.info(successMsg);
-            mv.addObject(MESSAGE, successMsg);
-            mv.setViewName(CHALLENGES);
+            LOG.info("Challenge {} submitted successfully by user {}", challengeId, principal.getName());
+
+            return gallery();
         }
         catch (Exception ex) {
             String errorMsg = "Failed to submit story";
