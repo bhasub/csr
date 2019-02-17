@@ -4,7 +4,6 @@ import com.emc.ideaforce.model.ChallengeCount;
 import com.emc.ideaforce.model.ChallengeDetail;
 import com.emc.ideaforce.model.Story;
 import com.emc.ideaforce.model.StoryImage;
-import com.emc.ideaforce.model.User;
 import com.emc.ideaforce.service.CommonService;
 import com.emc.ideaforce.service.UserService;
 import com.emc.ideaforce.utils.CommonException;
@@ -12,11 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,7 +22,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.lang.String.format;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
@@ -49,31 +43,29 @@ public class CommonController {
     private static final String SUBMIT_STORY_VIEW = "submitstory";
     private static final String GALLERY_VIEW = "gallery";
     private static final String LEADER_BOARD_VIEW = "leaderboard";
-    private static final String PROFILE_VIEW = "profile";
     private static final String MESSAGE = "message";
-    DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-    public static final String UNAPPROVED_CHALLENGES = "unapprovedchallenges";
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
     private final CommonService commonService;
 
     private final UserService userService;
 
     @GetMapping("/")
-    public ModelAndView index(Principal principal) {
+    public ModelAndView index() {
         ModelAndView mv = new ModelAndView(HOME_VIEW);
 
-        int totalChallenges = 30;
-
-        int approvedChallenges = commonService.getApprovedStories(principal.getName()).size();
-
-        int goalStatus = (int) ((approvedChallenges * 100.0f) / totalChallenges);
-        mv.addObject("goalStatus", goalStatus);
-
-        float stepsTaken = Float.valueOf(decimalFormat.format(commonService.getApprovedStoriesCount() * 3000 * 100.0f / 65000000));
-        mv.addObject("stepsTaken", stepsTaken);
-
         long participants = userService.getAllUsers();
+
+        int approvedStories = commonService.getApprovedStoriesCount();
+
+        int totalSteps = 65000000;
+        int stepsTaken = approvedStories * 6000;
+
+        String goalStatus = decimalFormat.format((stepsTaken * 100f) / totalSteps);
+
+        mv.addObject("goalStatus", goalStatus);
+        mv.addObject("stepsTaken", stepsTaken);
         mv.addObject("participants", participants);
 
         return mv;
@@ -197,78 +189,6 @@ public class CommonController {
 
         List<ChallengeCount> challengerDetails = commonService.getTopTenChallengers();
         mv.addObject("topchallengers", challengerDetails);
-        return mv;
-    }
-
-    @GetMapping("/profile")
-    public ModelAndView profile(Principal principal) {
-        ModelAndView mv = new ModelAndView(PROFILE_VIEW);
-
-        try {
-            User user = userService.getUser(principal.getName());
-            mv.addObject("details", user);
-
-            List<Story> stories = commonService.getStories(principal.getName());
-            mv.addObject("stories", stories);
-
-            List<Story> unApprovedChallengeDetailList = commonService.getUnapprovedStories();
-            mv.addObject(UNAPPROVED_CHALLENGES, unApprovedChallengeDetailList);
-        }
-        catch (Exception ex) {
-            String errorMsg = "Failed to get profile details";
-            LOG.error(errorMsg + " for user {}", principal.getName(), ex);
-
-            mv.addObject(MESSAGE, errorMsg);
-            mv.setStatus(INTERNAL_SERVER_ERROR);
-        }
-
-        return mv;
-    }
-
-    @PostMapping("/profile/set")
-    public ModelAndView profile(Principal principal,
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam String employeeId,
-            @RequestParam(required = false) MultipartFile image) {
-
-        ModelAndView mv = new ModelAndView(PROFILE_VIEW);
-
-        try {
-            User user = userService.getUser(principal.getName());
-
-            if (user == null) {
-                String errorMessage = "User doesn't exist";
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(format("%s with ID %s", errorMessage, principal.getName()));
-                }
-
-                mv.addObject(MESSAGE, errorMessage);
-            }
-            else {
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
-                user.setEmployeeId(employeeId);
-
-                if (!image.isEmpty()) {
-                    user.setImage(image.getBytes());
-                }
-
-                userService.updateProfile(user);
-
-                String successMessage = "Profile updated successfully";
-                LOG.info(successMessage);
-                mv.addObject(MESSAGE, successMessage);
-            }
-        }
-        catch (Exception ex) {
-            String errorMsg = "Failed to update profile";
-            LOG.error(errorMsg, ex);
-
-            mv.addObject(MESSAGE, errorMsg);
-            mv.setStatus(INTERNAL_SERVER_ERROR);
-        }
-
         return mv;
     }
 

@@ -134,10 +134,6 @@ public class UserService implements UserDetailsService {
         repository.save(user);
     }
 
-    public void updateProfile(User user) {
-        repository.save(user);
-    }
-
     public long getAllUsers() {
         return repository.count();
     }
