@@ -4,10 +4,7 @@
 <head>
     <span th:include="common/header :: common-header"></span>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}"/>
-    <script type="text/javascript" th:src="@{/assets/js/leaderboard.js}">
-    </script>
-    <script type="text/javascript" th:src="@{/assets/js/gallery.js}">
-    </script>
+    <script type="text/javascript" th:src="@{/assets/js/gallery.js}"></script>
     <title>Around The World :: Leader Board</title>
 </head>
 <body>
@@ -66,12 +63,6 @@
 </div>
 <br>
 <br>
-<script type="text/javascript">
-    $(".progress-bar").loading();
-    $('input').on('click', function () {
-        $(".progress-bar").loading();
-    });
-</script>
 <footer>
     <div th:replace="common/header :: footer"></div>
 </footer>
