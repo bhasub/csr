@@ -23,6 +23,8 @@ public class User {
 
     private String lastName;
 
+    private String userLocation;
+
     private String password;
 
     private String ntId;

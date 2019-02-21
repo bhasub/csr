@@ -37,6 +37,11 @@
                     <p class="error-list" th:each="error : ${#fields.errors('employeeId')}" th:text="${error}">Validation error</p>
                 </div>
 
+                <select th:field="*{userLocation}">
+                    <option th:value="'Bangalore'" th:text="Bangalore"></option>
+                    <option th:value="'Pune'" th:text="Pune"></option>
+                </select>
+
                 <div class="col-sm-4 mx-auto">
                     <input type="password" th:field="*{password}" class="form-control mx-sm-3 mb-2" placeholder="Password (8-20 chars)" required autofocus/>
                     <p class="error-list" th:each="error : ${#fields.errors('password')}" th:text="${error}">Validation error</p>

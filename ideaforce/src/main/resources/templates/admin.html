@@ -16,6 +16,7 @@
         <thead>
             <th>Challenge Name</th>
             <th>User</th>
+            <th>User Location</th>
             <th>Approval Status</th>
             <th></th>
             <th></th>
@@ -26,6 +27,7 @@
         <tr th:each="unapprovedchallenge : ${unapprovedchallenges}">
             <td th:text="${unapprovedchallenge.challengeDetail.name}"></td>
             <td th:text="${#strings.capitalize(unapprovedchallenge.user.firstName) + ' ' + #strings.capitalize(unapprovedchallenge.user.lastName)}"></td>
+            <td th:text="${#strings.capitalize(unapprovedchallenge.user.userLocation)}"></td>
             <td th:text="${unapprovedchallenge.approved}"></td>
             <td><a class="info" style="padding:2px;" th:href="@{'/approve/'+ ${unapprovedchallenge.id}}">Approve</a></td>
             <td><a class="info" style="padding:2px;" th:href="@{'/addcomments/'+ ${unapprovedchallenge.id}}">Add Comments</a></td>

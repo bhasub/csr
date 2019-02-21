@@ -28,6 +28,10 @@
     <p th:text="${#strings.capitalize(storyDetails.user.firstName) + ' ' + #strings.capitalize(storyDetails.user.lastName) + ' [' + storyDetails.user.email + '] '}"></p>
     <br/>
     <br/>
+    <h3>Submitted From</h3>
+    <p th:text="${#strings.capitalize(storyDetails.user.userLocation)}"></p>
+    <br/>
+    <br/>
     <a class="info" style="padding:2px;" th:href="@{'/approve/'+ ${storyDetails.id}}">Approve</a>
     <a class="info" style="padding:2px;" th:href="@{'/addcomments/'+ ${storyDetails.id}}">Add Comments</a>
 </div>

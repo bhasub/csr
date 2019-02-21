@@ -19,6 +19,9 @@ public class UserDto {
     private String employeeId;
 
     @NotEmpty
+    private String userLocation;
+
+    @NotEmpty
     @ValidEmail
     private String email;
 
