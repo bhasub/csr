@@ -53,7 +53,7 @@
                 <tr th:each="topChallenger,iter : ${topchallengers}">
                     <td th:text="${iter.index + 1}"></td>
                     <td th:text="${#strings.capitalize(topChallenger.user.firstName) + ' ' + #strings.capitalize(topChallenger.user.lastName)}"></td>
-                    <td>Bangalore</td>
+                    <td th:text="${#strings.capitalize(topChallenger.user.userLocation)}"></td>
                     <td th:text="${topChallenger.count}"></td>
                 </tr>
                 </tbody>
