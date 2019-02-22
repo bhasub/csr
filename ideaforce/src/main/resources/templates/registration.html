@@ -36,11 +36,14 @@
                     <input th:field="*{employeeId}" class="form-control mx-sm-3 mb-2" placeholder="Employee Id" required autofocus/>
                     <p class="error-list" th:each="error : ${#fields.errors('employeeId')}" th:text="${error}">Validation error</p>
                 </div>
-
-                <select th:field="*{userLocation}">
-                    <option th:value="'Bangalore'" th:text="Bangalore"></option>
-                    <option th:value="'Pune'" th:text="Pune"></option>
-                </select>
+                <div class="col-sm-4 mx-auto">
+                    <select th:field="*{userLocation}" class="form-control mx-sm-3 mb-2" required autofocus>
+                        <option th:value="''" th:text="'Select Location'" selected></option>
+                        <option th:value="'Bangalore'" th:text="'Bangalore'"></option>
+                        <option th:value="'Pune'" th:text="'Pune'"></option>
+                    </select>
+                    <p class="error-list" th:each="error : ${#fields.errors('userLocation')}" th:text="${error}">Validation error</p>
+                </div>
 
                 <div class="col-sm-4 mx-auto">
                     <input type="password" th:field="*{password}" class="form-control mx-sm-3 mb-2" placeholder="Password (8-20 chars)" required autofocus/>
