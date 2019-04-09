@@ -119,7 +119,7 @@ public class CommonService {
 
     public List<ChallengeCount> getTopTenChallengers() {
         List<ChallengeCount> challengeCounts = new ArrayList<>();
-        List<ChallengerCountProjection> challengers = storyRepository.findUsersWithStoryCount(PageRequest.of(0, 20));
+        List<ChallengerCountProjection> challengers = storyRepository.findUsersWithStoryCount(PageRequest.of(0, 50));
         if (!isEmpty(challengers)) {
             for (ChallengerCountProjection challengerCountProjection : challengers) {
                 challengeCounts.add(new ChallengeCount(userService.getUser(challengerCountProjection.getUserId()),
