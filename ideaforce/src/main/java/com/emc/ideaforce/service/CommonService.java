@@ -11,8 +11,12 @@ import com.emc.ideaforce.repository.ChallengerCountProjection;
 import com.emc.ideaforce.repository.StoryCommentRepository;
 import com.emc.ideaforce.repository.StoryRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,8 +85,8 @@ public class CommonService {
         return storyRepository.findByUserEqualsAndApprovedIsTrue(userId);
     }
 
-    public List<Story> getUnapprovedStories() {
-        return storyRepository.findByApprovedIsFalse();
+    public Page<Story> getUnapprovedStories(Pageable pageable) {
+        return storyRepository.findByApprovedIsFalse(pageable);
     }
 
     public int getApprovedStoriesCount() {
