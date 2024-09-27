@@ -30,9 +30,9 @@ public class AdminController {
 
     public static final String ADMIN = "admin";
     public static final String UNAPPROVED_CHALLENGES = "unapprovedchallenges";
-    public static final String APPROVE_CHALLENGE = "approved";
     public static final String ADD_COMMENTS_VIEW = "addcomments";
     public static final String VIEW_COMMENTS_VIEW = "viewcomments";
+    private static final String VIEW_STORY_DETAILS_ADMIN_VIEW = "storydetailsForAdmin";
     private static final String VIEW_STORY_DETAILS_VIEW = "storydetails";
 
     private final CommonService commonService;
@@ -41,7 +41,7 @@ public class AdminController {
     private final UserService userService;
 
     @RolesAllowed(ADMIN_ROLE)
-    @GetMapping(value = "/admin")
+    @GetMapping(value = "/admin", produces = "application/json")
     public ModelAndView showAdminPage() {
         List<Story> unApprovedChallengeDetailList = commonService.getUnapprovedStories();
 
@@ -51,10 +51,14 @@ public class AdminController {
     }
 
     @RolesAllowed(ADMIN_ROLE)
-    @GetMapping(value = "/approve/{id}")
-    public String approveStory(@PathVariable String id) {
+    @GetMapping(value = "/approve/{id}", produces = "application/json")
+    public ModelAndView approveStory(@PathVariable String id) {
         commonService.approveStory(id);
-        return APPROVE_CHALLENGE;
+        ModelAndView mv = new ModelAndView(ADMIN + " :: resultsList");
+        List<Story> unApprovedChallengeDetailList = commonService.getUnapprovedStories();
+        mv.addObject(UNAPPROVED_CHALLENGES, unApprovedChallengeDetailList);
+
+        return mv;
     }
 
     @GetMapping(value = "/addcomments/{id}")
@@ -67,32 +71,50 @@ public class AdminController {
 
     @PostMapping(value = "/addcomments")
     public ModelAndView addCommentsForStory(Principal principal,
-            @ModelAttribute("newcomment") CommentDto commentModel) {
+                                            @ModelAttribute("storyComment") StoryComments commentModel) {
         User currentUser = userService.getUser(principal.getName());
+        StoryComments comment = commonService.getCommentForStory(commentModel.getStoryId());
+        if(comment != null) {
+            String commentId = comment.getId() + "";
+            commentModel.setId(Integer.parseInt(commentId));
+        }
         commonService.saveStoryComment(commentModel, currentUser);
         return showAdminPage();
     }
 
     @GetMapping(value = "/viewcomments/{id}")
-    public ModelAndView viewCommentsForStory(@PathVariable String id) {
-        List<StoryComments> storyComments = commonService.getAllCommentsForStory(id);
+    public ModelAndView viewCommentForStory(@PathVariable String id) {
         ModelAndView mvObject = new ModelAndView(VIEW_COMMENTS_VIEW);
-        mvObject.addObject("storyComments", storyComments);
+        StoryComments storyComment = commonService.getCommentForStory(id);
+
+        if(storyComment == null){
+            storyComment = new StoryComments();
+            storyComment.setStoryId(id);
+        }
+
+        mvObject.addObject("storyComment", storyComment);
+
         return mvObject;
     }
 
-    @GetMapping(value = "viewdetails/{id}")
-    public ModelAndView getStoryDetails(@PathVariable String id) {
+    @GetMapping(value = "viewdetails/type/{type}/{id}")
+    public ModelAndView getStoryDetailsForAdmin(Principal principal, @PathVariable String type, @PathVariable String id) {
         Story storyObj = commonService.getStoryById(id);
         List<StoryImage> images = storyObj.getImages();
         List<String> encodedImages = new ArrayList<>();
         for (StoryImage image : images) {
             encodedImages.add(Base64.getEncoder().encodeToString(image.getData()));
         }
-        ModelAndView mvObject = new ModelAndView(VIEW_STORY_DETAILS_VIEW);
+
+        ModelAndView mvObject;
+        if(type.equals("admin")){
+            mvObject = new ModelAndView(VIEW_STORY_DETAILS_ADMIN_VIEW);
+        } else {
+            mvObject = new ModelAndView(VIEW_STORY_DETAILS_VIEW);
+        }
         mvObject.addObject("storyDetails", storyObj);
         mvObject.addObject("storyPics", encodedImages);
+        mvObject.addObject("user",principal.getName());
         return mvObject;
     }
-
 }

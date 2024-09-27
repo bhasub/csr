@@ -1,0 +1,204 @@
+
+#unapproved-requests_info {
+    font-size:12px
+}
+
+#flash_message {
+    width: fit-content;
+    margin-top: 3%;
+    height: 52px;
+    position: fixed;
+    top:4em;
+    left:35%;
+    z-index: 1;
+}
+
+#unapproved-requests {
+    width:100%;
+    border: 0.4px solid #c9c3dc;
+    border-radius: 10px;
+}
+
+#unapproved-requests td {
+    border: none ;
+    color: grey;
+    vertical-align: middle;
+    width: 1px;
+    padding-left: 20px;
+}
+
+#unapproved-requests tr {
+    font-size: 12px;
+}
+
+#unapproved-requests tr:nth-child(even) {
+    background-color: #d3d3d330 ;
+}
+
+#unapproved-requests thead th {
+    background-color: #6ea204;
+    color: white;
+    border-bottom: none;
+    height: 25px;
+    vertical-align: middle;
+    padding-left: 20px;
+}
+
+#unapproved-requests thead th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+#unapproved-requests thead th:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+#pending_title{
+    margin-top: 5em;
+    text-align: center;
+    font-weight: bold;
+}
+
+#myImg {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.img-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 10000; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100% !important;
+    height: auto;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+.image {
+    cursor: pointer;
+    width: auto;
+    height: auto;
+    max-height: 5em;
+    max-width: 8em;
+    border-radius: 8px;
+    margin-top: 12%;
+    margin-bottom: 8%;
+}
+
+.image:hover {
+    opacity: 0.7;
+}
+/* Modal Content (image) */
+.img-modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.modal-header-green {
+    background-color: #6ea204;
+    color: white;
+}
+
+.card-height {
+    overflow: auto;
+    max-height: 27em;
+}
+
+/* Caption of Modal Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+.img-modal-content, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)}
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.spanClose {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.spanClose:hover,
+.spanClose:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .img-modal-content {
+        width: 100%;
+    }
+}
+
+
+.results-block .btn-info {
+    background-color: #507505;
+    border: 1px solid;
+}
+
+.results-block .btn-info:hover {
+    background-color: #6ea204;
+    border: 1px solid;
+}
+
+.results-block .btn-danger {
+    background-color: #0076ce   ;
+    border: 1px solid;
+}
+
+.results-block .btn-danger:hover {
+    background-color: #0076ceb3;
+    border: 1px solid;
+}
+
+.pagination a {
+    height:27px;
+    font-size:10px;
+}
+
+.dataTables_length {
+    float: left;
+}
+
+.dataTables_filter {
+    float: right;
+}

@@ -1,0 +1,42 @@
+    <head>
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}"/>
+    </head>
+
+    <body>
+            <div class="card card-height">
+                <div class="card-body">
+                    <h5 class="card-title">Challenge Name</h5>
+                    <p class="card-text" th:utext="${storyDetails.challengeDetail.name}"></p>
+
+
+
+                    <hr>
+
+                        <h5 class="card-title">Description</h5>
+                        <p class="card-text" th:utext="${storyDetails.description}"></p>
+
+                        <hr>
+
+                            <h5 class="card-title">Images</h5>
+                            <p class="card-text" >
+                                <div class="gallery modal-gallery col-sm-12">
+                                    <div class="zoom col-sm-4" th:each="challenge : ${storyPics}">
+                                        <img class="image" th:src="@{'data:image/png;base64,' + ${challenge}}" alt="" onclick="onImageClick(this)"/>
+                                    </div>
+                                </div>
+                            </p>
+
+                            <h5 class="card-title">Video:</h5>
+
+                            <span th:if="*{storyDetails.video!=null and #strings.length(storyDetails.video)>1}">
+                                    <p class="card-text">
+                                        <iframe id="iframe" width="435 " height="300" th:src="${storyDetails.video}" >
+                                        </iframe>
+                                        <a th:href="${storyDetails.video}">Video Link</a>
+                                    </p>
+                            </span>
+
+
+                            </div>
+                            </div >
+   </body>

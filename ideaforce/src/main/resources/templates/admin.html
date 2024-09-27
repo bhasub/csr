@@ -4,36 +4,77 @@
 <head>
     <span th:include="common/header :: common-header"></span>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/admin.css}"/>
     <title>Around The World :: Admin </title>
+    <script type="text/javascript" th:src="@{/assets/js/admin.js}"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <header>
     <div th:replace="common/header :: header('admin')"></div>
 </header>
 <div class="container main">
-    <h2>Pending Challenges</h2>
-    <table class="table" border="1">
-        <thead class="thead-light">
-            <th>Challenge Name</th>
-            <th>User</th>
-            <th>User Location</th>
-            <th>Approval Status</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+    <div class="row">
+    <div id="flash_message" style="display: none"></div>
+    </div>
+    <h4 id="pending_title">Pending Challenges</h4><div th:fragment="comment-fragment" id="new-comment">
+
+    <!-- The Modal for fullscreen image -->
+    <div id="imgModal" class="img-modal">
+        <span class="spanClose" onclick="closeImgModal()">&times;</span>
+        <img class="img-modal-content" id="img01">
+        <div id="caption"></div>
+    </div>
+
+    <!-- The Modal for comments -->
+    <div class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header modal-header-green">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" onclick="closeModal()">&times;</button>
+                </div>
+
+                <div class="modal-body"></div>
+
+                <div class="modal-footer">
+                    <button id="modal-submit-btn" class="btn btn-danger btn-sm" style="background: #0076ceb3;border: 1px solid;" onclick="submitComment()"><span class="glyphicon glyphicon-comment"></span> Comment </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <table id="unapproved-requests" class="table">
+        <thead>
+        <th>Challenge Name</th>
+        <th>Story</th>
+        <th>User</th>
+        <th>User Location</th>
+        <th></th>
+        <th></th>
+
         </thead>
 
-        <tr th:each="unapprovedchallenge : ${unapprovedchallenges}">
+        <tbody th:fragment="resultsList" class="results-block">
+
+        <tr th:id="'row'+${unapprovedchallenge.id}" th:each="unapprovedchallenge : ${unapprovedchallenges}">
             <td th:text="${unapprovedchallenge.challengeDetail.name}"></td>
+            <td><p th:id="${unapprovedchallenge.user.firstName} + '_' + ${unapprovedchallenge.title}+'_' + ${unapprovedchallenge.id}" th:text="${unapprovedchallenge.title}" onclick="viewDetails(this)" style="color: royalblue;text-decoration: underline;cursor: pointer;"></p></td>
             <td th:text="${#strings.capitalize(unapprovedchallenge.user.firstName) + ' ' + #strings.capitalize(unapprovedchallenge.user.lastName)}"></td>
             <td th:text="${#strings.capitalize(unapprovedchallenge.user.userLocation)}"></td>
-            <td th:text="${unapprovedchallenge.approved}"></td>
-            <td><a class="btn btn-outline-primary text-primary" style="padding:2px; background-color: white;" th:href="@{'/approve/'+ ${unapprovedchallenge.id}}">Approve</a></td>
-            <td><a class="btn btn-outline-primary text-primary" style="padding:2px; background-color: white;" th:href="@{'/addcomments/'+ ${unapprovedchallenge.id}}">Add Comments</a></td>
-            <td><a class="btn btn-outline-primary text-primary" style="padding:2px; background-color: white;" th:href="@{'/viewcomments/'+ ${unapprovedchallenge.id}}">View Comments</a></td>
-            <td><a class="btn btn-outline-primary text-primary" style="padding:2px; background-color: white;" th:href="@{'/viewdetails/'+ ${unapprovedchallenge.id}}">View Details</a></td>
+            <td><button th:id="${unapprovedchallenge.id}" th:name="${unapprovedchallenge.challengeDetail.name}" onclick="approveRequest(this)" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="bottom" title="Approve"><span class="glyphicon glyphicon-ok-sign"></span></button></td>
+            <td><button th:id="${unapprovedchallenge.id}" th:name="${unapprovedchallenge.challengeDetail.name}"  onclick="handleComments(this)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Comment"><span class="glyphicon glyphicon-comment"></span> </button></td>
+
         </tr>
+        </tbody>
     </table>
 </div>
 <footer>

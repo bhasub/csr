@@ -10,6 +10,8 @@ import com.emc.ideaforce.repository.ChallengeDetailRepository;
 import com.emc.ideaforce.repository.ChallengerCountProjection;
 import com.emc.ideaforce.repository.StoryCommentRepository;
 import com.emc.ideaforce.repository.StoryRepository;
+import com.emc.ideaforce.model.Event;
+import com.emc.ideaforce.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,7 @@ public class CommonService {
 
     private final UserService userService;
 
+    private final EventRepository eventRepository;
     /**
      * Returns the global Challenges list
      */
@@ -74,7 +77,7 @@ public class CommonService {
      * Get the latest/recent challenges taken by users
      */
     public List<Story> getLatestChallengesUndertaken() {
-        return storyRepository.findTop20ByApprovedIsTrueOrderByLastUpdatedDesc();
+        return storyRepository.findTop50ByApprovedIsTrueOrderByLastUpdatedDesc();
     }
 
     public List<Story> getApprovedStories(String userId) {
@@ -99,23 +102,20 @@ public class CommonService {
         return storyRepository.getOne(storyId);
     }
 
-    public void saveStoryComment(CommentDto commentModel, User currentUser) {
-        StoryComments storyCommentsEntity = new StoryComments();
-        storyCommentsEntity.setStoryId(commentModel.getStoryId());
-        storyCommentsEntity.setComment(commentModel.getComment());
+    public void saveStoryComment(StoryComments storyCommentsEntity, User currentUser) {
         storyCommentsEntity.setUser(currentUser);
         storyCommentsEntity.setCreated(new Date(System.currentTimeMillis()));
         storyCommentsEntity.setLastUpdated(new Date(System.currentTimeMillis()));
         storyCommentRepository.save(storyCommentsEntity);
     }
 
-    public List<StoryComments> getAllCommentsForStory(String id) {
-        return storyCommentRepository.findAllByStoryIdEqualsOrderByCreatedDesc(id);
+    public StoryComments getCommentForStory(String id) {
+        return storyCommentRepository.findByStoryIdEquals(id);
     }
 
     public List<ChallengeCount> getTopTenChallengers() {
         List<ChallengeCount> challengeCounts = new ArrayList<>();
-        List<ChallengerCountProjection> challengers = storyRepository.findUsersWithStoryCount(PageRequest.of(0, 20));
+        List<ChallengerCountProjection> challengers = storyRepository.findUsersWithStoryCount(PageRequest.of(0, 50));
         if (!isEmpty(challengers)) {
             for (ChallengerCountProjection challengerCountProjection : challengers) {
                 challengeCounts.add(new ChallengeCount(userService.getUser(challengerCountProjection.getUserId()),
@@ -123,5 +123,12 @@ public class CommonService {
             }
         }
         return challengeCounts;
+    }
+    /**
+     * Returns the global events list
+     */
+    public List<Event> getEventsList() {
+        List<Event> eventDetails = eventRepository.findAll();
+        return eventDetails;
     }
 }

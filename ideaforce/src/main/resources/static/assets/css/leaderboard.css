@@ -1,0 +1,142 @@
+
+
+#topChallengersTable, #latestChallengersTable {
+    border-radius: 10px !important;
+    border: 0.4px solid #c9c3dc;
+    margin-top: 2em;
+    width:100%;
+}
+
+#topChallengersTable_paginate {
+    border: 1px solid #bfcbcf;
+    font-size: 0.7em;
+    border-radius: 4px;
+    margin-top: 1em;
+}
+
+.results-block .btn-info {
+    background-color: #507505;
+    border: 1px solid;
+}
+
+.results-block .btn-info:hover {
+    background-color: #6ea204;
+    border: 1px solid;
+}
+
+.results-block .btn-danger {
+    background-color: #0076ce   ;
+    border: 1px solid;
+}
+
+.results-block .btn-danger:hover {
+    background-color: #0076ceb3;
+    border: 1px solid;
+}
+
+.pagination a {
+    height:27px;
+    font-size:10px;
+}
+
+.dataTables_length {
+    display:none;
+}
+
+.dataTables_filter {
+    display: none;
+}
+
+
+#flash_message {
+    width: 100%;
+    margin-top: 2%;
+    height: 52px;
+}
+
+
+#topChallengersTable_info {
+    font-size:12px
+}
+
+#topChallengersTable td {
+    border: none ;
+    color: grey;
+    vertical-align: middle;
+    width: 1px;
+    padding-left: 20px;
+}
+
+#topChallengersTable tr {
+    font-size: 12px;
+}
+
+#topChallengersTable tr:nth-child(even) {
+    background-color: #d3d3d330 ;
+}
+
+#topChallengersTable thead th {
+    background-color: #6ea204;
+    color: white;
+    border-bottom: none;
+    height: 25px;
+    vertical-align: middle;
+    padding-left: 20px;
+}
+
+#topChallengersTable thead th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+#topChallengersTable thead th:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+/* Latest challengers table */
+
+
+
+#latestChallengersTable_info {
+    font-size:12px
+}
+
+#latestChallengersTable td {
+    border: none ;
+    color: grey;
+    vertical-align: middle;
+    width: 1px;
+    padding-left: 20px;
+}
+
+#latestChallengersTable tr {
+    font-size: 12px;
+}
+
+#latestChallengersTable tr:nth-child(even) {
+    background-color: #d3d3d330 ;
+}
+
+#latestChallengersTable thead th {
+    background-color: #6ea204;
+    color: white;
+    border-bottom: none;
+    height: 25px;
+    vertical-align: middle;
+    padding-left: 20px;
+}
+
+#latestChallengersTable thead th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+#latestChallengersTable thead th:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+
+#latestChallengersTable_paginate {
+    border: 1px solid #bfcbcf;
+    font-size: 0.7em;
+    border-radius: 4px;
+    margin-top: 1em;
+}

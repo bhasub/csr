@@ -4,11 +4,15 @@
 <head>
     <span th:include="common/header :: common-header"></span>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/leaderboard.css}"/>
     <script type="text/javascript" th:src="@{/assets/js/gallery.js}"></script>
     <title>Around The World :: Leader Board</title>
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
 <header>
     <div th:replace="common/header :: header('leaderboard')"></div>
 </header>
@@ -18,38 +22,15 @@
     <br>
     <div class="row">
         <div class="col-sm">
-            <h3 class="text-center">Latest Challengers </h3>
-            <table class="table table-striped table-bordered">
+            <h4 class="text-center">Top Challengers</h4>
+            <table id="topChallengersTable" class="table">
                 <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Site</th>
-                    <th scope="col">Challenge Name</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="latestChallenge,iter : ${latestchallenges}">
-                    <td th:text="${iter.index + 1}"></td>
-                    <td th:text="${#strings.capitalize(latestChallenge.user.firstName) + ' ' + #strings.capitalize(latestChallenge.user.lastName)}"></td>
-                    <td th:text="${#strings.capitalize(latestChallenge.user.userLocation)}"></td>
-                    <td th:text="${latestChallenge.challengeDetail.name}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-sm">
-            <h3 class="text-center">Top Challengers</h3>
-            <table class="table table-striped table-bordered">
-                <thead>
-                <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Site</th>
                     <th scope="col">Challenges Count</th>
-                </tr>
                 </thead>
-                <tbody>
+                <tbody class="results-block">
                 <tr th:each="topChallenger,iter : ${topchallengers}">
                     <td th:text="${iter.index + 1}"></td>
                     <td th:text="${#strings.capitalize(topChallenger.user.firstName) + ' ' + #strings.capitalize(topChallenger.user.lastName)}"></td>
@@ -59,6 +40,26 @@
                 </tbody>
             </table>
         </div>
+        <div class="col-sm">
+            <h4 class="text-center">Latest Challengers </h4>
+            <table id="latestChallengersTable" class="table">
+                <thead>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Site</th>
+                    <th scope="col">Challenge Name</th>
+                </thead>
+                <tbody class="results-block">
+                <tr th:each="latestChallenge,iter : ${latestchallenges}">
+                    <td th:text="${iter.index + 1}"></td>
+                    <td th:text="${#strings.capitalize(latestChallenge.user.firstName) + ' ' + #strings.capitalize(latestChallenge.user.lastName)}"></td>
+                    <td th:text="${#strings.capitalize(latestChallenge.user.userLocation)}"></td>
+                    <td th:text="${latestChallenge.challengeDetail.name}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
 <br>
@@ -67,5 +68,15 @@
     <div th:replace="common/header :: footer"></div>
 </footer>
 <span th:include="common/header :: before-body-scripts"></span>
+<script>
+    $(document).ready( function () {
+        $('#topChallengersTable, #latestChallengersTable').DataTable({
+            searching: false,
+            "bSort": false,
+            "bLengthChange": false,
+            "pageLength": 10,
+        });
+    } );
+</script>
 </body>
 </html>
